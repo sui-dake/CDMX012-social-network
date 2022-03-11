@@ -1,0 +1,36 @@
+*{
+    font-family: Century Gothic, CenturyGothic, AppleGothic, sans-serif;
+}
+#container1{
+    display: flex;
+    flex-direction: column;
+    align-content: center;
+    align-items: center;
+    justify-content: center;
+    row-gap: 10px;
+    margin: 5%;
+}
+
+.mailAndPass{
+    background-color: #ccc;
+    border-radius: 30px;
+    width:80%;
+    padding: 3%;
+    border-color:#FFBE48;
+}
+
+#login{
+    background-color: #FF7C7C;
+    font-weight: bolder;
+    border-radius: 30px;
+    color:white;
+    width:40%;
+    padding:3%;
+}
+
+#img,
+#welcomeText{
+    display: flex;
+    justify-content: center;
+    text-align: center;
+}

@@ -10,16 +10,17 @@ import {
 
 // eslint-disable-next-line import/no-unresolved
 } from 'https://www.gstatic.com/firebasejs/9.6.8/firebase-firestore.js';
-import { getAuth, 
-  createUserWithEmailAndPassword, 
-  signInWithEmailAndPassword, 
+import {
+  getAuth,
+  createUserWithEmailAndPassword,
+  signInWithEmailAndPassword,
   signOut,
   onAuthStateChanged,
   GoogleAuthProvider,
   signInWithPopup,
   getRedirectResult,
-  signInWithRedirect } from 'https://www.gstatic.com/firebasejs/9.6.8/firebase-auth.js';
-import {  } from 'https://www.gstatic.com/firebasejs/9.6.8/firebase-firestore.js';
+  signInWithRedirect,
+} from 'https://www.gstatic.com/firebasejs/9.6.8/firebase-auth.js';
 
 const firebaseConfig = {
   apiKey: 'AIzaSyAiKKsrEJpCx8NgpvvcNp1dykxNjEyzqe0',
@@ -36,25 +37,19 @@ const auth = getAuth();
 
 const provider = new GoogleAuthProvider();
 
-const taskForm = document.querySelector('#task-form');
-taskForm.addEventListener('submit', (e) => {
-  e.preventDefault();
-  console.log('registrado');
-  const email = document.querySelector('#email').value;
-  const pass = document.querySelector('#password').value;
-  console.log(email, pass);
-
+export const signInFunct = (email, pass) => {
   createUserWithEmailAndPassword(auth, email, pass)
     .then((userCredential) => {
       const user = userCredential.user;
       console.log('cualquiercosa');
+      return true;
     })
     .catch((error) => {
       const errorCode = error.code;
       const errorMessage = error.message;
       alert(errorMessage);
     });
-});
+};
 
 const googleButton = document.querySelector('#googleLogin');
 googleButton.addEventListener('click', (e) => {
@@ -67,7 +62,7 @@ googleButton.addEventListener('click', (e) => {
       const token = credential.accessToken;
       // The signed-in user info.
       const user = result.user;
-      console.log ('funciona?');
+      console.log('funciona?');
     }).catch((error) => {
     // Handle Errors here.
       const errorCode = error.code;
@@ -103,8 +98,8 @@ logout.addEventListener('click', (e) => {
   auth.signOut()
     .then(() => {
       console.log('deslogueado');
-    })
-})
+    });
+});
 
 // export const saveTask = (email, password) => addDoc(collection(db, 'users'), { email, password })
 // export const getTasks = () => { getDocs(collection, (db, 'users'));}

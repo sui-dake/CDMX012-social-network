@@ -7,14 +7,15 @@
   <link rel="stylesheet" href="styles.css">
   <title>iCarePets</title>
   <h1></h1>
+
 </head>
 
 
 <body>
-  <header id="img">
+  <!-- <header id="img">
     <img  id="logo" src="imagenes/logo_large.png" alt="Logo" width="200px" height="180px">
-  </header>
-
+  </header> -->
+<!-- 
   <div id="welcomeText">
 <h1>¡Bienvenidx a la comunidad amante de las mascotas!</h1>
 </div>
@@ -25,20 +26,21 @@
   <input type="password" class="mailAndPass" id = 'log_password' name="password" placeholder="Password"> 
   <input type="submit" id = 'login' name = 'login' value="Log In"> 
   <br><br><br>
+  <button type= 'button' class='btn btn-secondary btn-block' id = 'googleLogin'>
+    Iniciar Sesión con Google</button>
  <button id ='logout'>Logout</button>
 
-</div>
+</div> -->
 
-<button type= 'button' class='btn btn-secondary btn-block' id = 'googleLogin'>
-  Iniciar Sesión con Google</button>
+<div id="root"></div>
+<!-- <ul class="navbar-list">
+  <li class="navbar-item"><a href="#" onclick="onNavigate('/about'); return false;">About</a></li>
+  <li class="navbar-item"><a href="#" onclick="onNavigate('/'); return false;">Home</a></li>
+  <li class="navbar-item"><a href="#" onclick="onNavigate('/signIn'); return false;">Contact</a></li>
+</ul> -->
 
-  <form id="task-form">
-    <input type="text" class="mailAndPass" id = 'email' name = 'email' placeholder="E-mail"> 
-    <input type="password" class="mailAndPass" id = 'password' name="password" placeholder="Password"> 
-    <input type="submit" id = 'sign_up' name = 'sign_up_submit' value="Crear cuenta"> 
-   </form>
 
- <script type="module" src="main.js"></script>
+ <script type ="module" src="app.js"></script>
  <script type="module" src="firebase.js"></script>
 
   

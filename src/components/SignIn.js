@@ -9,10 +9,10 @@ export const SignIn = () => {
   document.body.appendChild(headerImg);
   const SignInDiv = document.createElement('div');
   SignInDiv.setAttribute('id', 'welcomeText');
-  const homeH1 = document.createElement('h1');
-  homeH1.textContent = 'prueba 1 de xxxxxx';
+  const signH1 = document.createElement('h1');
+  signH1.textContent = 'prueba 1 de xxxxxx';
 
-  const loginInputs = document.createComment('div');
+  const loginInputs = document.createElement('div');
   loginInputs.setAttribute('id', 'container1');
   const emailInput = document.createElement('input');
   emailInput.setAttribute(
@@ -36,7 +36,7 @@ export const SignIn = () => {
     'placeholder',
     'Contraseña',
   );
-  const submitAction = document.createElement('input');
+  const submitAction = document.createElement('button');
   submitAction.setAttribute('id', 'login', 'type', 'submit', 'value', 'Iniciar Sesión');
   const googleBtnLogin = document.createElement('button');
   googleBtnLogin.setAttribute('id', 'googleLogin', 'type', 'button', 'class', 'btn btn-secondary btn-block');
@@ -48,7 +48,7 @@ export const SignIn = () => {
 
   SignInDiv.append(
     headerImg,
-    homeH1,
+    signH1,
     loginInputs,
     emailInput,
     passInput,

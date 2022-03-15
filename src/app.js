@@ -6,27 +6,35 @@ import { SignIn } from './components/SignIn.js';
 const rootDiv = document.getElementById('root');
 const routes = {
   '/': Home,
-  '/SignIn': SignIn,
+  '/signIn': SignIn,
   // '/about': about,
 };
 
 export const onNavigate = (pathname) => {
+  console.log(pathname);
+  while (rootDiv.firstChild) {
+    rootDiv.removeChild(rootDiv.firstChild);
+  }
   window.history.pushState(
     {},
     pathname,
     window.location.origin + pathname,
   );
-  while (rootDiv.firstChild) {
-    rootDiv.removeChild(rootDiv.firstChild);
-  }
-
   rootDiv.appendChild(routes[pathname]());
 };
 
+const component = routes[window.location.pathname];
+
 window.onpopstate = () => {
-  rootDiv.innerHTML(routes[window.location.pathname]);
+  // if con pathname para saber si existe dentro de routes
+  while (rootDiv.firstChild) {
+    rootDiv.removeChild(rootDiv.firstChild);
+  }
+  if (routes[window.location.pathname]()) {
+    console.log(rootDiv);
+  }
+  // rootDiv.appendChild(routes[window.location.pathname]());
 };
+// console.log(window.location.pathname);
 
-// const component = routes[window.location.pathname];
-
-// rootDiv.appendChild(component());
+rootDiv.appendChild(component());

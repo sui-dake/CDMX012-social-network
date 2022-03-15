@@ -11,39 +11,45 @@ export const Home = () => {
   document.body.appendChild(HomeDiv);
   const homeH1 = document.createElement('h1');
   homeH1.textContent = '¡Bienvenidx a la comunidad amante de las mascotas!';
-  
+
   const loginInputs = document.createElement('div');
   loginInputs.setAttribute('id', 'container1');
   const emailInput = document.createElement('input');
-  emailInput.setAttribute(
-    'id',
-    'log_email',
-    'class',
-    'mailAndPass',
-    'type',
-    'text',
-    'placeholder',
-    'Correo electrónico',
-  );
+  Object.assign(emailInput, {
+    id: 'log_email',
+    class: 'mailAndPass',
+    type: 'text',
+    placeholder: 'Correo electrónico',
+  });
+  document.body.appendChild(emailInput);
   const passInput = document.createElement('input');
-  passInput.setAttribute(
-    'id',
-    'log_password',
-    'class',
-    'mailAndPass',
-    'type',
-    'password',
-    'placeholder',
-    'Contraseña',
-  );
-  const submitAction = document.createElement('button');
-  submitAction.setAttribute('id', 'login', 'type', 'submit', 'value', 'Iniciar Sesión');
-  loginInputs.append(emailInput, passInput, submitAction);
+  Object.assign(passInput, {
+    id: 'log_password',
+    class: 'mailAndPass',
+    type: 'password',
+    placeholder: 'Contraseña',
+  });
+  document.body.appendChild(passInput);
+  const submitAction = document.createElement('input');
+  Object.assign(submitAction, {
+    id: 'login',
+    type: 'submit',
+    value: 'Iniciar Sesión',
+  });
+  document.body.appendChild(submitAction);
+  const createAcc = document.createElement('button');
+  Object.assign(createAcc, {
+    id: 'acc_creation',
+    type: 'button',
+    textContent: 'Crear cuenta',
+  });
+  document.body.appendChild(createAcc);
+  loginInputs.append(emailInput, passInput, submitAction, createAcc);
   const googleBtnLogin = document.createElement('button');
   googleBtnLogin.setAttribute('id', 'googleLogin', 'type', 'button', 'class', 'btn btn-secondary btn-block');
   googleBtnLogin.textContent = 'Iniciar Sesión con Google';
 
-  submitAction.addEventListener('click', () => {
+  createAcc.addEventListener('click', () => {
     onNavigate('/signIn');
   });
 

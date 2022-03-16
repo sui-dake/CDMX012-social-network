@@ -1,55 +1,59 @@
 // eslint-disable-next-line import/no-unresolved
-// import { initializeApp } from 'https://www.gstatic.com/firebasejs/9.6.8/firebase-app.js';
+import { initializeApp } from 'https://www.gstatic.com/firebasejs/9.6.8/firebase-app.js';
 
-// import {
-//   getFirestore,
-//   collection,
-//   addDoc,
-//   getDocs,
-//   onSnapshot,
+import {
+  getFirestore,
+  collection,
+  addDoc,
+  getDocs,
+  onSnapshot,
 
-// // eslint-disable-next-line import/no-unresolved
-// } from 'https://www.gstatic.com/firebasejs/9.6.8/firebase-firestore.js';
-// import {
-//   getAuth,
-//   createUserWithEmailAndPassword,
-//   signInWithEmailAndPassword,
-//   signOut,
-//   onAuthStateChanged,
-//   GoogleAuthProvider,
-//   signInWithPopup,
-//   getRedirectResult,
-//   signInWithRedirect,
-// } from 'https://www.gstatic.com/firebasejs/9.6.8/firebase-auth.js';
+// eslint-disable-next-line import/no-unresolved
+} from 'https://www.gstatic.com/firebasejs/9.6.8/firebase-firestore.js';
+import {
+  getAuth,
+  createUserWithEmailAndPassword,
+  signInWithEmailAndPassword,
+  signOut,
+  onAuthStateChanged,
+  GoogleAuthProvider,
+  signInWithPopup,
+  getRedirectResult,
+  signInWithRedirect,
+} from 'https://www.gstatic.com/firebasejs/9.6.8/firebase-auth.js';
 
-// const firebaseConfig = {
-//   apiKey: 'AIzaSyAiKKsrEJpCx8NgpvvcNp1dykxNjEyzqe0',
-//   authDomain: 'redsocialmascotasars.firebaseapp.com',
-//   projectId: 'redsocialmascotasars',
-//   storageBucket: 'redsocialmascotasars.appspot.com',
-//   messagingSenderId: '193884625743',
-//   appId: '1:193884625743:web:0089978f1ca3f84fcc433a',
-//   measurementId: 'G-97XRHHD647',
-// };
-// const app = initializeApp(firebaseConfig);
-// const db = getFirestore();
-// const auth = getAuth();
+const firebaseConfig = {
+  apiKey: 'AIzaSyAiKKsrEJpCx8NgpvvcNp1dykxNjEyzqe0',
+  authDomain: 'redsocialmascotasars.firebaseapp.com',
+  projectId: 'redsocialmascotasars',
+  storageBucket: 'redsocialmascotasars.appspot.com',
+  messagingSenderId: '193884625743',
+  appId: '1:193884625743:web:0089978f1ca3f84fcc433a',
+  measurementId: 'G-97XRHHD647',
+};
+const app = initializeApp(firebaseConfig);
+const db = getFirestore();
+const auth = getAuth();
 
-// const provider = new GoogleAuthProvider();
+const provider = new GoogleAuthProvider();
 
-// export const signInFunct = (email, pass) => {
-//   createUserWithEmailAndPassword(auth, email, pass)
-//     .then((userCredential) => {
-//       const user = userCredential.user;
-//       console.log('cualquiercosa');
-//       return true;
-//     })
-//     .catch((error) => {
-//       const errorCode = error.code;
-//       const errorMessage = error.message;
-//       alert(errorMessage);
-//     });
-// };
+export const signInFunct = (email, pass) => {
+  createUserWithEmailAndPassword(auth, email, pass)
+    .then((userCredential) => {
+      const user = userCredential.user;
+      console.log('cualquiercosa');
+      return true;
+    })
+    .catch((error) => {
+      const errorCode = error.code;
+      const errorMessage = error.message;
+      alert(errorMessage);
+    });
+};
+
+export const saveForm = (name, email, password) => {
+  addDoc(collection(db, 'users'), { name, email, password });
+};
 
 // const googleButton = document.querySelector('#googleLogin');
 // googleButton.addEventListener('click', (e) => {

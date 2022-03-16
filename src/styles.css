@@ -1,5 +1,10 @@
 *{
     font-family: Century Gothic, CenturyGothic, AppleGothic, sans-serif;
+    margin: 0;
+    padding: 0;
+}
+body{
+    background-color: #F8F4E9;
 }
 #container1{
     display: flex;
@@ -12,25 +17,65 @@
 }
 
 .mailAndPass{
-    background-color: #ccc;
+    background-color: #E4E3E3;
     border-radius: 30px;
-    width:80%;
+    width:120%;
     padding: 3%;
     border-color:#FFBE48;
+    text-align: center;
+    margin: 8%;
 }
 
 #login{
-    background-color: #FF7C7C;
+    background-color: #FFBE48;
     font-weight: bolder;
     border-radius: 30px;
-    color:white;
-    width:40%;
+    color:rgb(0, 0, 0);
+    width:95%;
+    padding:3%;
+    margin: 30%;
+}
+#acc_creation{
+    background-color: #FF7C7C;
+    font-weight: medium;
+    border-radius: 30px;
+    color:rgb(0, 0, 0);
     padding:3%;
 }
-
-#img,
+#googleLogin{
+    background-color: #FF7C7C;
+    font-weight: medium;
+    border-radius: 30px;
+    color:rgb(0, 0, 0);
+    padding:3%;
+}
+#logo_hexagonal{
+    display: flex;
+    margin-top: 10%;
+    height: 20%;
+    width: 20%;
+}
+#full_logo{
+    display: flex;
+    margin-top: 10%;
+    height: 30%;
+    width: 30%;
+}
+#welcomeText2{
+    display: flex;
+    justify-content: center;
+    text-align: center;
+    flex-direction: column;
+    align-items: center;
+    background-image: url('https://img.freepik.com/vector-gratis/perros-enamorados-fondo-lindas-ilustraciones_53876-111988.jpg?t=st=1647394933~exp=1647395533~hmac=223c6df985babe325428f5bf4efdabd2326b606b1f20f3e7f80d9c5cbebedb3d&w=740');
+    background-repeat: no-repeat;
+    background-position: center;
+    background-size: flex-end, flex-end;
+}
 #welcomeText{
     display: flex;
     justify-content: center;
     text-align: center;
+    flex-direction: column;
+    align-items: center;
 }

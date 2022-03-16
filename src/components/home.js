@@ -6,6 +6,7 @@ export const Home = () => {
   const headerImg = document.createElement('img');
   headerImg.src = 'imagenes/logo_large.png';
   document.body.appendChild(headerImg);
+  headerImg.setAttribute('id', 'full_logo');
   const HomeDiv = document.createElement('div');
   HomeDiv.setAttribute('id', 'welcomeText');
   document.body.appendChild(HomeDiv);
@@ -17,18 +18,18 @@ export const Home = () => {
   const emailInput = document.createElement('input');
   Object.assign(emailInput, {
     id: 'log_email',
-    class: 'mailAndPass',
     type: 'text',
     placeholder: 'Correo electrónico',
   });
+  emailInput.setAttribute('class', 'mailAndPass');
   document.body.appendChild(emailInput);
   const passInput = document.createElement('input');
   Object.assign(passInput, {
     id: 'log_password',
-    class: 'mailAndPass',
     type: 'password',
     placeholder: 'Contraseña',
   });
+  passInput.setAttribute('class', 'mailAndPass');
   document.body.appendChild(passInput);
   const submitAction = document.createElement('input');
   Object.assign(submitAction, {

@@ -1,7 +1,6 @@
 /* eslint-disable import/no-cycle */
 // import { signInFunct } from '../firebase.js';
 import { onNavigate } from '../app.js';
-import { saveForm, signInFunct } from '../firebase.js';
 
 export const SignIn = () => {
   // const homeLogo = document.createElement('header');
@@ -46,27 +45,12 @@ export const SignIn = () => {
     type: 'submit',
     value: 'Crear cuenta',
   });
-
   document.body.appendChild(submitAction);
   signInInputs.append(nameInput, emailInput, passInput, submitAction);
-  submitAction.addEventListener('click', (e) => {
-    e.preventDefault();
-
-    const name = document.querySelector('#log_name');
-    const email = document.querySelector('#log_email');
-    const password = document.querySelector('#log_password');
-    console.log(name.value, email.value, password.value);
-    function holi() {
-      console.log('registrado');
-      // const name = document.querySelector('#log_name').value;
-      const email_auth = document.querySelector('#log_email').value;
-      const pass_auth = document.querySelector('#log_password').value;
-      console.log(email_auth, pass_auth);
-      signInFunct(email_auth, pass_auth);
-    }
-    holi();
-    saveForm(name.value, email.value, password.value);
+  submitAction.addEventListener('click', () => {
+    onNavigate('/');
   });
+
   SignInDiv.append(
     headerImg,
     signH1,
@@ -74,5 +58,24 @@ export const SignIn = () => {
   );
   return SignInDiv;
 };
-  // FALTA OPCION PARA RESETEAR FORMULARIO !!!! ////
-// export const signIn =
+
+// export const signIn = `
+// <div id="task-form">
+//   <input type="text" class="mailAndPass" id = 'email' name = 'email' placeholder="E-mail">
+//   <input type="password" class="mailAndPass" id = 'password' name="password" placeholder="Password">
+//   <input type="submit" id = 'sign_up' name = 'sign_up_submit' value="Crear cuenta">
+//  </div>
+//  <script>const taskForm = document.querySelector('#task-form');
+//  console.log ('holiiiii');</script>
+// `;
+// function holi() {
+//   const taskForm = document.querySelector('#task-form');
+//   taskForm.addEventListener('submit', (e) => {
+//     e.preventDefault();
+//     console.log('registrado');
+//     const email = document.querySelector('#email').value;
+//     const pass = document.querySelector('#password').value;
+//     console.log(email, pass);
+//     signInFunct(email, pass);
+//   });
+// }

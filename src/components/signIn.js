@@ -1,10 +1,11 @@
 /* eslint-disable import/no-cycle */
 // import { signInFunct } from '../firebase.js';
+// eslint-disable-next-line no-unused-vars
 import { onNavigate } from '../app.js';
 
-//////  VISTA CREACION DE CUENTA ////////////
+/// ///  VISTA CREACION DE CUENTA ////////////
 export const SignIn = () => {
-  //// LOGO E INTRODUCCION /////////////
+  /// / LOGO E INTRODUCCION /////////////
   const headerImg = document.createElement('img');
   headerImg.src = 'imagenes/logo_small.png';
   headerImg.setAttribute('id', 'logo_hexagonal');
@@ -13,7 +14,7 @@ export const SignIn = () => {
   SignInDiv.setAttribute('id', 'welcomeText2');
   const signH1 = document.createElement('h1');
   signH1.textContent = '¡Estás a punto de comenzar! Introduce tus datos';
-/////// FORMULARIO PARA CREAR CUENTA/////////////
+  /// //// FORMULARIO PARA CREAR CUENTA/////////////
   const signInInputs = document.createElement('div');
   signInInputs.setAttribute('id', 'container1');
 
@@ -46,14 +47,15 @@ export const SignIn = () => {
 
   const submitAction = document.createElement('input');
   Object.assign(submitAction, {
-    id: 'login',
+    id: 'creat_acc',
     type: 'submit',
     value: 'Crear cuenta',
   });
   document.body.appendChild(submitAction);
 
-  //////// PINTAR NODOS EN HTML ////////
+  /// ///// PINTAR NODOS EN HTML ////////
   signInInputs.append(nameInput, emailInput, passInput, submitAction);
+<<<<<<< HEAD
 <<<<<<< HEAD
   submitAction.addEventListener('click', () => {
     onNavigate('/');
@@ -80,10 +82,30 @@ export const SignIn = () => {
 >>>>>>> ab9e856b46a3e040bde09982f047b58ef1fa1122
   });
 
+=======
+
+  /// ///// INTERACCION FIRESTORE Y AUTH ////////
+  submitAction.addEventListener('click', (e) => {
+    e.preventDefault();
+
+    const name = document.querySelector('#log_name').value;
+    const email = document.querySelector('#log_email').value;
+    const password = document.querySelector('#log_password').value;
+
+    signInFunct(email, password);
+
+    saveForm(name, email, password);
+  });
+  const footerImg = document.createElement('img');
+  footerImg.src = 'imagenes/perrito1.jpg';
+  document.body.appendChild(footerImg);
+  footerImg.setAttribute('id', 'footer_img');
+>>>>>>> 90a61ca893edddae2f281a84972736e9c52306bc
   SignInDiv.append(
     headerImg,
     signH1,
     signInInputs,
+    footerImg,
   );
   return SignInDiv;
 };

@@ -4,7 +4,29 @@
     padding: 0;
 }
 body{
-    background-color: #F8F4E9;
+    background-color: white;
+}
+#full_logo{
+    display: flex;
+    margin-top: 8%;
+    margin-bottom: 2%;
+    height: 31%;
+    width: 42.5%;
+}
+#welcomeText{
+    display: flex;
+    justify-content: center;
+    text-align: center;
+    flex-direction: column;
+    align-items: center;
+}
+h1{
+    font-weight: lighter;
+    margin-top: 7%;
+    margin-bottom: 3%;
+    margin-left: 5%;
+    margin-right: 5%;
+    font-size:large;
 }
 #container1{
     display: flex;
@@ -15,7 +37,6 @@ body{
     row-gap: 10px;
     margin: 5%;
 }
-
 .mailAndPass{
     background-color: #E4E3E3;
     border-radius: 30px;
@@ -23,43 +44,63 @@ body{
     padding: 3%;
     border-color:#FFBE48;
     text-align: center;
-    margin: 8%;
+    margin: 4%;
 }
-
 #login{
-    background-color: #FFBE48;
+    background-color: #FF7C7C;
     font-weight: bolder;
+    border: transparent;
     border-radius: 30px;
-    color:rgb(0, 0, 0);
+    color: whitesmoke;
     width:95%;
-    padding:3%;
-    margin: 30%;
+    padding:5%;
+    margin-top: 10%;
 }
 #acc_creation{
-    background-color: #FF7C7C;
-    font-weight: medium;
+    flex-direction: row;
+    justify-content: center;
+    background-color: #FFBE48;
+    border: transparent;
     border-radius: 30px;
-    color:rgb(0, 0, 0);
-    padding:3%;
+    color:black;
+    padding-top:  1%;
+    padding-left: 5%;
+    padding-right: 5%;
+    padding-bottom: 1%;
+    position: absolute;
+    top: 150%;
+    left: 50%;
+    transform: translate(-50%, -50%);
 }
-#googleLogin{
-    background-color: #FF7C7C;
-    font-weight: medium;
-    border-radius: 30px;
-    color:rgb(0, 0, 0);
-    padding:3%;
+#containerLogos{
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
 }
+#googleLogin, #facebookLogin{
+    background-color: none;
+    padding:3%;
+    cursor: pointer;
+    width: 10%;
+    height: 10%;
+}
+#subcontainer{
+    display: inline-block;
+    position: relative;
+    flex-direction: column;
+    justify-content: center;
+}
+footer{
+    position: absolute;
+    bottom: 5%;
+    font-style: italic;
+}
+/* SECOND VIEW SIGN IN */
 #logo_hexagonal{
     display: flex;
     margin-top: 10%;
     height: 20%;
     width: 20%;
-}
-#full_logo{
-    display: flex;
-    margin-top: 10%;
-    height: 30%;
-    width: 30%;
 }
 #welcomeText2{
     display: flex;
@@ -67,15 +108,32 @@ body{
     text-align: center;
     flex-direction: column;
     align-items: center;
-    background-image: url('https://img.freepik.com/vector-gratis/perros-enamorados-fondo-lindas-ilustraciones_53876-111988.jpg?t=st=1647394933~exp=1647395533~hmac=223c6df985babe325428f5bf4efdabd2326b606b1f20f3e7f80d9c5cbebedb3d&w=740');
-    background-repeat: no-repeat;
+    background-repeat: repeat;
     background-position: center;
     background-size: flex-end, flex-end;
 }
-#welcomeText{
-    display: flex;
+#creat_acc{
+    flex-direction: row;
     justify-content: center;
+<<<<<<< HEAD
     text-align: center;
     flex-direction: column;
     align-items: center;
 }
+=======
+    background-color: #FFBE48;
+    border: transparent;
+    border-radius: 30px;
+    color:black;
+    padding-top:  3%;
+    padding-left: 10%;
+    padding-right: 10%;
+    padding-bottom: 3%;
+    margin-top: 10%;
+}
+#footer_img{
+    display: flex;
+    height: 50%;
+    width: 50%;
+}
+>>>>>>> 90a61ca893edddae2f281a84972736e9c52306bc

@@ -40,6 +40,7 @@ export const Home = () => {
     value: 'Iniciar Sesión',
   });
   document.body.appendChild(submitAction);
+  
 
     ////////////// LOGOS GOOGLE, FB & CREATE ACC //////////////
   const logosAndCreate = document.createElement('div');
@@ -90,6 +91,10 @@ export const Home = () => {
 
   createAcc.addEventListener('click', () => {
     onNavigate('/signIn');
+  });
+
+  submitAction.addEventListener('click', () => {
+    onNavigate('/timeLine');
   });
 
   googleBtnLogin.addEventListener('click', (e) => {

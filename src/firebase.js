@@ -35,6 +35,10 @@ const firebaseConfig = {
 const app = initializeApp(firebaseConfig);
 const db = getFirestore();
 const auth = getAuth();
+//const fs = app.firestore();
+//const docRef = query(collection(db, 'posts'));
+const querySnapshot = await getDocs(collection(db, 'posts'));
+export const usuario = await getDocs(collection(db, 'users'));
 
 const provider = new GoogleAuthProvider();
 const provider2 = new FacebookAuthProvider();
@@ -58,6 +62,8 @@ export const saveForm = (name, email, password) => {
 // const googleButton = document.querySelector('#googleLogin');
 // googleButton.addEventListener('click', (e) => {
 //  const credential = GoogleAuthProvider.credentialFromResult(result);
+
+//Crear cuenta con Google
 export const googleLogin = () => {
   signInWithRedirect(auth, provider);
   getRedirectResult(auth)
@@ -80,6 +86,7 @@ export const googleLogin = () => {
     });
 };
 
+//Crear cuenta con Facebook
 export const facebookLog = () => {
   signInWithRedirect(auth, provider2);
   getRedirectResult(auth)
@@ -101,6 +108,7 @@ export const facebookLog = () => {
     });
 };
 
+//Función iniciar sesión
 export const loginInFunct = (email, password) => {
   signInWithEmailAndPassword(auth, email, password)
     .then((userCredential) => {
@@ -114,15 +122,52 @@ export const loginInFunct = (email, password) => {
     });
 };
 
-// const logout = document.querySelector('#logout');
+//Función cerrar sesión
+export const logOutFunct = () => {
+  signOut(auth)
+  .then(() => {
+ console.log('deslogueado');
+ }).catch((error) => {
+})};
 
-// logout.addEventListener('click', (e) => {
-//   e.preventDefault();
-//   auth.signOut()
-//     .then(() => {
-//       console.log('deslogueado');
-//     });
-// });
+ //Función para que solo se pueda acceder el time line con cuenta valida
+/*export const dataCall = (token) => {
+  onAuthStateChanged(auth, (user) => {
+    if (user) {
+      collection(db, 'posts')
+      .get()
+      .then((snapshot) =>{ 
+      console.log(snapshot.docs);
+      token(snapshot.docs)
+      })
+    } else {
+    console.log("no autenticado")
+    token([]);
+    }
+  });*/
+ 
+  export const validacion = () =>{
+    onAuthStateChanged(auth, user => {
+    if (user){
+    console.log('loggeado')
+    querySnapshot.forEach((doc) => {
+      const postData = doc.data()
+       const publicaciones =`${postData.Title} ${postData.Description}`;
+       return publicaciones;
+    });
+     }else{
+    console.log('No estas logeada');
+  }
+});
+  }
+
+
+
+/*const querySnapshot = await getDocs(collection(db, "posts"));
+querySnapshot.forEach((doc) => {
+  console.log(`${doc.id} => ${doc.data()}`);
+});*/
+
 
 // export const saveTask = (email, password) => addDoc(collection(db, 'users'), { email, password })
 // export const getTasks = () => { getDocs(collection, (db, 'users'));}

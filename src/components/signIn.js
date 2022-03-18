@@ -46,6 +46,7 @@ export const SignIn = () => {
   passInput.setAttribute('class', 'mailAndPass');
   document.body.appendChild(passInput);
 
+  //Boton crear cuenta
   const submitAction = document.createElement('input');
   Object.assign(submitAction, {
     id: 'creat_acc',

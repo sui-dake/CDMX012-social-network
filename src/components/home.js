@@ -1,3 +1,4 @@
+/* eslint-disable indent */
 /* eslint-disable spaced-comment */
 // eslint-disable-next-line import/no-cycle
 import { onNavigate } from '../app.js';
@@ -40,7 +41,6 @@ export const Home = () => {
     value: 'Iniciar Sesión',
   });
   document.body.appendChild(submitAction);
-  
 
     ////////////// LOGOS GOOGLE, FB & CREATE ACC //////////////
   const logosAndCreate = document.createElement('div');
@@ -89,12 +89,11 @@ export const Home = () => {
     loginInFunct(email, password);
   });
 
-  createAcc.addEventListener('click', () => {
-    onNavigate('/signIn');
-  });
-
   submitAction.addEventListener('click', () => {
     onNavigate('/timeLine');
+  });
+  createAcc.addEventListener('click', () => {
+    onNavigate('/signIn');
   });
 
   googleBtnLogin.addEventListener('click', (e) => {

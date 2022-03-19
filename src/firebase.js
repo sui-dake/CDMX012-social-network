@@ -37,7 +37,7 @@ const db = getFirestore();
 const auth = getAuth();
 //const fs = app.firestore();
 //const docRef = query(collection(db, 'posts'));
-const querySnapshot = await getDocs(collection(db, 'posts'));
+export const querySnapshot = await getDocs(collection(db, 'posts'));
 export const usuario = await getDocs(collection(db, 'users'));
 
 const provider = new GoogleAuthProvider();
@@ -113,7 +113,6 @@ export const loginInFunct = (email, password) => {
   signInWithEmailAndPassword(auth, email, password)
     .then((userCredential) => {
       const user = userCredential.user;
-      console.log('loggeado');
     })
     .catch((error) => {
       const errorCode = error.code;
@@ -146,20 +145,26 @@ export const logOutFunct = () => {
     }
   });*/
  
-  export const validacion = () =>{
+  export const validacion = () => {
     onAuthStateChanged(auth, user => {
     if (user){
     console.log('loggeado')
-    querySnapshot.forEach((doc) => {
-      const postData = doc.data()
-       const publicaciones =`${postData.Title} ${postData.Description}`;
-       return publicaciones;
-    });
-     }else{
-    console.log('No estas logeada');
-  }
-});
-  }
+    console.log(querySnapshot);
+    } else {
+      console.log('No estas logeada');
+    };
+  })};
+    // querySnapshot.forEach((doc) => {
+    //   const postData = doc.data()
+    //    const publicaciones =`${postData.Title} ${postData.Description}`;
+    //    console.log(publicaciones);
+    //    return publicaciones;
+//     });
+//      }else{
+//     console.log('No estas logeada');
+//   }
+// });
+//   }
 
 
 
@@ -170,6 +175,6 @@ querySnapshot.forEach((doc) => {
 
 
 // export const saveTask = (email, password) => addDoc(collection(db, 'users'), { email, password })
-// export const getTasks = () => { getDocs(collection, (db, 'users'));}
-// export const onGetTasks = (callback) => onSnapshot(collection, (db, 'users'));
+export const getTasks = () => getDocs(collection, (db, 'posts'));
+export const onGetTasks = (callback) => onSnapshot(collection, (db, 'posts'));
 // export const authFunction = () => createUserWithEmailAndPassword(auth, email, password);

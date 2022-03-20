@@ -2,12 +2,13 @@ import { Home } from './components/Home.js';
 // import { about } from './components/about.js';
 // eslint-disable-next-line import/no-cycle
 import { SignIn } from './components/SignIn.js';
+import { TimeLine } from './components/timeLine.js';
 
 const rootDiv = document.getElementById('root');
 const routes = {
   '/': Home,
   '/signIn': SignIn,
-  // '/about': about,
+  '/timeLine': TimeLine,
 };
 
 export const onNavigate = (pathname) => {
@@ -31,4 +32,9 @@ window.onpopstate = () => {
   rootDiv.appendChild(routes[window.location.pathname]());
 };
 
+<<<<<<< HEAD
 rootDiv.appendChild(component());
+=======
+rootDiv.appendChild(component());
+
+>>>>>>> 64b2e5e10a5f662376c1f18c3da50fc3fd822601

@@ -35,6 +35,10 @@ const firebaseConfig = {
 const app = initializeApp(firebaseConfig);
 const db = getFirestore();
 const auth = getAuth();
+//const fs = app.firestore();
+//const docRef = query(collection(db, 'posts'));
+export const querySnapshot = await getDocs(collection(db, 'posts'));
+export const usuario = await getDocs(collection(db, 'users'));
 
 const provider = new GoogleAuthProvider();
 const provider2 = new FacebookAuthProvider();
@@ -58,6 +62,8 @@ export const saveForm = (name, email, password) => {
 // const googleButton = document.querySelector('#googleLogin');
 // googleButton.addEventListener('click', (e) => {
 //  const credential = GoogleAuthProvider.credentialFromResult(result);
+
+//Crear cuenta con Google
 export const googleLogin = () => {
   signInWithRedirect(auth, provider);
   getRedirectResult(auth)
@@ -80,6 +86,7 @@ export const googleLogin = () => {
     });
 };
 
+//Crear cuenta con Facebook
 export const facebookLog = () => {
   signInWithRedirect(auth, provider2);
   getRedirectResult(auth)
@@ -101,11 +108,11 @@ export const facebookLog = () => {
     });
 };
 
+//Función iniciar sesión
 export const loginInFunct = (email, password) => {
   signInWithEmailAndPassword(auth, email, password)
     .then((userCredential) => {
       const user = userCredential.user;
-      console.log('loggeado');
     })
     .catch((error) => {
       const errorCode = error.code;
@@ -114,17 +121,65 @@ export const loginInFunct = (email, password) => {
     });
 };
 
-// const logout = document.querySelector('#logout');
+//Función cerrar sesión
+export const logOutFunct = () => {
+  signOut(auth)
+  .then(() => {
+ console.log('deslogueado');
+ }).catch((error) => {
+})};
 
-// logout.addEventListener('click', (e) => {
-//   e.preventDefault();
-//   auth.signOut()
-//     .then(() => {
-//       console.log('deslogueado');
+ //Función para que solo se pueda acceder el time line con cuenta valida
+/*export const dataCall = (token) => {
+  onAuthStateChanged(auth, (user) => {
+    if (user) {
+      collection(db, 'posts')
+      .get()
+      .then((snapshot) =>{ 
+      console.log(snapshot.docs);
+      token(snapshot.docs)
+      })
+    } else {
+    console.log("no autenticado")
+    token([]);
+    }
+  });*/
+ 
+  export const validacion = () => {
+    onAuthStateChanged(auth, user => {
+    if (user){
+    console.log('loggeado')
+    console.log(querySnapshot);
+    } else {
+      console.log('No estas logeada');
+    };
+  })};
+    // querySnapshot.forEach((doc) => {
+    //   const postData = doc.data()
+    //    const publicaciones =`${postData.Title} ${postData.Description}`;
+    //    console.log(publicaciones);
+    //    return publicaciones;
 //     });
+//      }else{
+//     console.log('No estas logeada');
+//   }
 // });
+//   }
+
+
+
+/*const querySnapshot = await getDocs(collection(db, "posts"));
+querySnapshot.forEach((doc) => {
+  console.log(`${doc.id} => ${doc.data()}`);
+});*/
+
 
 // export const saveTask = (email, password) => addDoc(collection(db, 'users'), { email, password })
+<<<<<<< HEAD
 // export const getTasks = () => { getDocs(collection, (db, 'users'));}
 // export const onGetTasks = (callback) => onSnapshot(collection, (db, 'users'));
+=======
+export const getTasks = () => getDocs(collection, (db, 'posts'));
+export const onGetTasks = (callback) => onSnapshot(collection, (db, 'posts'));
+>>>>>>> 64b2e5e10a5f662376c1f18c3da50fc3fd822601
 // export const authFunction = () => createUserWithEmailAndPassword(auth, email, password);

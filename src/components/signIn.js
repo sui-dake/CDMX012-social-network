@@ -39,6 +39,11 @@ export const SignIn = () => {
     placeholder: 'Contraseña',
   });
   document.body.appendChild(passInput);
+<<<<<<< HEAD
+=======
+
+  // Boton crear cuenta
+>>>>>>> 64b2e5e10a5f662376c1f18c3da50fc3fd822601
   const submitAction = document.createElement('input');
   Object.assign(submitAction, {
     id: 'login',

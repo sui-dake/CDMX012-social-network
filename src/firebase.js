@@ -175,11 +175,6 @@ querySnapshot.forEach((doc) => {
 
 
 // export const saveTask = (email, password) => addDoc(collection(db, 'users'), { email, password })
-<<<<<<< HEAD
-// export const getTasks = () => { getDocs(collection, (db, 'users'));}
-// export const onGetTasks = (callback) => onSnapshot(collection, (db, 'users'));
-=======
 export const getTasks = () => getDocs(collection, (db, 'posts'));
 export const onGetTasks = (callback) => onSnapshot(collection, (db, 'posts'));
->>>>>>> 64b2e5e10a5f662376c1f18c3da50fc3fd822601
 // export const authFunction = () => createUserWithEmailAndPassword(auth, email, password);

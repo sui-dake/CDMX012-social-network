@@ -32,9 +32,5 @@ window.onpopstate = () => {
   rootDiv.appendChild(routes[window.location.pathname]());
 };
 
-<<<<<<< HEAD
-rootDiv.appendChild(component());
-=======
 rootDiv.appendChild(component());
 
->>>>>>> 64b2e5e10a5f662376c1f18c3da50fc3fd822601

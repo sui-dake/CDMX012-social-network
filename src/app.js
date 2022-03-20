@@ -1,4 +1,4 @@
-import { Home } from './components/Home.js';
+import { Home } from './components/home.js';
 // import { about } from './components/about.js';
 // eslint-disable-next-line import/no-cycle
 import { SignIn } from './components/SignIn.js';

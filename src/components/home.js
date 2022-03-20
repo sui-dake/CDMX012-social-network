@@ -1,5 +1,3 @@
-/* eslint-disable indent */
-/* eslint-disable spaced-comment */
 // eslint-disable-next-line import/no-cycle
 import { onNavigate } from '../app.js';
 
@@ -51,9 +49,6 @@ export const Home = () => {
   googleBtnLogin.setAttribute('id', 'googleLogin', 'type', 'button', 'class', 'btn btn-secondary btn-block');
   googleBtnLogin.textContent = 'Iniciar Sesión con Google';
 
-  submitAction.addEventListener('click', () => {
-    onNavigate('/timeLine');
-  });
   createAcc.addEventListener('click', () => {
     onNavigate('/signIn');
   });

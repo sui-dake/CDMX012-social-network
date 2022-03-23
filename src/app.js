@@ -1,8 +1,8 @@
-import { Home } from './components/home.js';
+import { Home } from './components/Home.js';
 // import { about } from './components/about.js';
 // eslint-disable-next-line import/no-cycle
 import { SignIn } from './components/SignIn.js';
-import { TimeLine } from './components/timeLine.js';
+import { TimeLine } from './components/TimeLine.js';
 
 const rootDiv = document.getElementById('root');
 const routes = {
@@ -33,4 +33,3 @@ window.onpopstate = () => {
 };
 
 rootDiv.appendChild(component());
-

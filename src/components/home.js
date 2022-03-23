@@ -1,11 +1,15 @@
+/* eslint-disable indent */
+/* eslint-disable spaced-comment */
 // eslint-disable-next-line import/no-cycle
 import { onNavigate } from '../app.js';
+import { loginInFunct, googleLogin, facebookLog } from '../firebase.js';
 
 export const Home = () => {
   // const homeLogo = document.createElement('header');
   const headerImg = document.createElement('img');
   headerImg.src = 'imagenes/logo_large.png';
   document.body.appendChild(headerImg);
+  headerImg.setAttribute('id', 'full_logo');
   const HomeDiv = document.createElement('div');
   HomeDiv.setAttribute('id', 'welcomeText');
   document.body.appendChild(HomeDiv);
@@ -17,26 +21,53 @@ export const Home = () => {
   const emailInput = document.createElement('input');
   Object.assign(emailInput, {
     id: 'log_email',
-    class: 'mailAndPass',
     type: 'text',
     placeholder: 'Correo electrónico',
   });
+  emailInput.setAttribute('class', 'mailAndPass');
   document.body.appendChild(emailInput);
   const passInput = document.createElement('input');
   Object.assign(passInput, {
     id: 'log_password',
-    class: 'mailAndPass',
     type: 'password',
     placeholder: 'Contraseña',
   });
+  passInput.setAttribute('class', 'mailAndPass');
   document.body.appendChild(passInput);
   const submitAction = document.createElement('input');
   Object.assign(submitAction, {
     id: 'login',
     type: 'submit',
     value: 'Iniciar Sesión',
+    class: 'loggedOut',
   });
   document.body.appendChild(submitAction);
+
+    ////////////// LOGOS GOOGLE, FB & CREATE ACC //////////////
+  const logosAndCreate = document.createElement('div');
+  logosAndCreate.setAttribute('id', 'subcontainer');
+  const logos = document.createElement('div');
+  logos.setAttribute('id', 'containerLogos');
+  const googleBtnLogin = document.createElement('img');
+  Object.assign(googleBtnLogin, {
+    id: 'googleLogin',
+    type: 'button',
+    // textContent: 'Crear cuenta',
+    class: 'btn btn-secondary btn-block',
+    src: 'imagenes/google_logo.png',
+  });
+  document.body.appendChild(googleBtnLogin);
+
+  const fbBtnLogin = document.createElement('img');
+  Object.assign(fbBtnLogin, {
+    id: 'facebookLogin',
+    type: 'button',
+    // textContent: 'Crear cuenta',
+    class: 'btn btn-secondary btn-block',
+    src: 'imagenes/fb_logo3.png',
+  });
+  document.body.appendChild(fbBtnLogin);
+  logos.append(googleBtnLogin, fbBtnLogin);
   const createAcc = document.createElement('button');
   Object.assign(createAcc, {
     id: 'acc_creation',
@@ -44,20 +75,43 @@ export const Home = () => {
     textContent: 'Crear cuenta',
   });
   document.body.appendChild(createAcc);
-  loginInputs.append(emailInput, passInput, submitAction, createAcc);
-  const googleBtnLogin = document.createElement('button');
-  googleBtnLogin.setAttribute('id', 'googleLogin', 'type', 'button', 'class', 'btn btn-secondary btn-block');
-  googleBtnLogin.textContent = 'Iniciar Sesión con Google';
+  logosAndCreate.append(logos, createAcc);
+  const footer = document.createElement('footer');
+  footer.setAttribute('id', 'footr');
+  footer.textContent = 'CopyRight @Ale, Ro y Sui';
+  loginInputs.append(emailInput, passInput, submitAction, footer);
+  // fbBtnLogin.textContent = 'Iniciar Sesión con Facebook';
 
+  submitAction.addEventListener('click', (e) => {
+    e.preventDefault();
+
+    const email = document.querySelector('#log_email').value;
+    const password = document.querySelector('#log_password').value;
+    loginInFunct(email, password);
+  });
+
+  submitAction.addEventListener('click', () => {
+    onNavigate('/timeLine');
+  });
   createAcc.addEventListener('click', () => {
     onNavigate('/signIn');
+  });
+
+  googleBtnLogin.addEventListener('click', (e) => {
+    e.preventDefault();
+    googleLogin();
+  });
+
+  fbBtnLogin.addEventListener('click', (e) => {
+    e.preventDefault();
+    facebookLog();
   });
 
   HomeDiv.append(
     headerImg,
     homeH1,
     loginInputs,
-    googleBtnLogin,
+    logosAndCreate,
   );
   return HomeDiv;
 };

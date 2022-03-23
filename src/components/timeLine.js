@@ -41,22 +41,19 @@ export const TimeLine = () => {
     logOutFunct();
   });
 
-  timeLineDiv.addEventListener('DOMContentLoaded', async () => {
+  const feed = () => {
     console.log('si sirvo');
     onGetTasks((querySnapshot) => {
       let html = '';
       querySnapshot.forEach((doc) => {
         const allPosts = doc.data();
-        html += `
-        <div>
-          <h3>${allPosts.Title}</h3>
-          <p>${allPosts.Description}</p>
-        </div>
-        `;
+        html += html.append(allPosts.Title);
       });
       containerPost.innerHTML = html;
     });
-  });
+  };
+  feed();
+  console.log(feed());
   // const setUpPost = (data) => {
   //   if (data) {
   //     const queries = () => {

@@ -39,6 +39,7 @@ export const Home = () => {
     id: 'login',
     type: 'submit',
     value: 'Iniciar Sesión',
+    class: 'loggedOut',
   });
   document.body.appendChild(submitAction);
 

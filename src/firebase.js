@@ -1,4 +1,3 @@
-// eslint-disable-next-line import/no-unresolved
 import { initializeApp } from 'https://www.gstatic.com/firebasejs/9.6.8/firebase-app.js';
 
 import {
@@ -7,8 +6,8 @@ import {
   addDoc,
   getDocs,
   onSnapshot,
+  query, where,
 
-// eslint-disable-next-line import/no-unresolved
 } from 'https://www.gstatic.com/firebasejs/9.6.8/firebase-firestore.js';
 import {
   getAuth,
@@ -17,7 +16,6 @@ import {
   signOut,
   onAuthStateChanged,
   GoogleAuthProvider,
-  signInWithPopup,
   getRedirectResult,
   signInWithRedirect,
   FacebookAuthProvider,
@@ -33,12 +31,8 @@ const firebaseConfig = {
   measurementId: 'G-97XRHHD647',
 };
 const app = initializeApp(firebaseConfig);
-const db = getFirestore();
-const auth = getAuth();
-//const fs = app.firestore();
-//const docRef = query(collection(db, 'posts'));
-export const querySnapshot = await getDocs(collection(db, 'posts'));
-export const usuario = await getDocs(collection(db, 'users'));
+const db = getFirestore(app);
+const auth = getAuth(app);
 
 const provider = new GoogleAuthProvider();
 const provider2 = new FacebookAuthProvider();
@@ -59,56 +53,58 @@ export const saveForm = (name, email, password) => {
   addDoc(collection(db, 'users'), { name, email, password });
 };
 
-// const googleButton = document.querySelector('#googleLogin');
-// googleButton.addEventListener('click', (e) => {
-//  const credential = GoogleAuthProvider.credentialFromResult(result);
+export const savePost = (Title, Description) => {
+  addDoc(collection(db, 'posts'), { Title, Description });
+};
 
-//Crear cuenta con Google
+// Crear cuenta con Google
 export const googleLogin = () => {
   signInWithRedirect(auth, provider);
   getRedirectResult(auth)
     .then((result) => {
-    // This gives you a Google Access Token. You can use it to access Google APIs.
+      // This gives you a Google Access Token. You can use it to access Google APIs.
       const credential = GoogleAuthProvider.credentialFromResult(result);
       const token = credential.accessToken;
       // The signed-in user info.
       const user = result.user;
       console.log('funciona?');
-    }).catch((error) => {
-    // Handle Errors here.
+    })
+    .catch((error) => {
+      // Handle Errors here.
       const errorCode = error.code;
       const errorMessage = error.message;
       // The email of the user's account used.
       const email = error.email;
       // The AuthCredential type that was used.
       const credential = GoogleAuthProvider.credentialFromError(error);
-    // ...
+      // ...
     });
 };
 
-//Crear cuenta con Facebook
+// Crear cuenta con Facebook
 export const facebookLog = () => {
   signInWithRedirect(auth, provider2);
   getRedirectResult(auth)
     .then((result) => {
-    // This gives you a Facebook Access Token. You can use it to access the Facebook API.
+      // This gives you a Facebook Access Token. You can use it to access the Facebook API.
       const credential = FacebookAuthProvider.credentialFromResult(result);
       const token = credential.accessToken;
 
       const user = result.user;
-    }).catch((error) => {
-    // Handle Errors here.
+    })
+    .catch((error) => {
+      // Handle Errors here.
       const errorCode = error.code;
       const errorMessage = error.message;
       // The email of the user's account used.
       const email = error.email;
       // AuthCredential type that was used.
       const credential = FacebookAuthProvider.credentialFromError(error);
-    // ...
+      // ...
     });
 };
 
-//Función iniciar sesión
+// Función iniciar sesión
 export const loginInFunct = (email, password) => {
   signInWithEmailAndPassword(auth, email, password)
     .then((userCredential) => {
@@ -121,60 +117,48 @@ export const loginInFunct = (email, password) => {
     });
 };
 
-//Función cerrar sesión
+// Función cerrar sesión
 export const logOutFunct = () => {
   signOut(auth)
-  .then(() => {
- console.log('deslogueado');
- }).catch((error) => {
-})};
+    .then(() => {
+      console.log('deslogueado');
+    })
+    .catch((error) => { console.log(error); });
+};
 
- //Función para que solo se pueda acceder el time line con cuenta valida
-/*export const dataCall = (token) => {
-  onAuthStateChanged(auth, (user) => {
-    if (user) {
-      collection(db, 'posts')
-      .get()
-      .then((snapshot) =>{ 
-      console.log(snapshot.docs);
-      token(snapshot.docs)
-      })
-    } else {
-    console.log("no autenticado")
-    token([]);
-    }
-  });*/
- 
-  export const validacion = () => {
-    onAuthStateChanged(auth, user => {
-    if (user){
-    console.log('loggeado')
-    console.log(querySnapshot);
-    } else {
-      console.log('No estas logeada');
-    };
-  })};
+export const dataCall = (callBackFn) => {
+  // console.log(user.email);
+  getDocs(collection(db, 'posts')).then((snapshot) => {
+    // const querySnapshot = await getDocs(q);
     // querySnapshot.forEach((doc) => {
-    //   const postData = doc.data()
-    //    const publicaciones =`${postData.Title} ${postData.Description}`;
-    //    console.log(publicaciones);
-    //    return publicaciones;
-//     });
-//      }else{
-//     console.log('No estas logeada');
-//   }
-// });
-//   }
-
-
-
-/*const querySnapshot = await getDocs(collection(db, "posts"));
-querySnapshot.forEach((doc) => {
-  console.log(`${doc.id} => ${doc.data()}`);
-});*/
-
-
-// export const saveTask = (email, password) => addDoc(collection(db, 'users'), { email, password })
-export const getTasks = () => getDocs(collection, (db, 'posts'));
-export const onGetTasks = (callback) => onSnapshot(collection, (db, 'posts'));
-// export const authFunction = () => createUserWithEmailAndPassword(auth, email, password);
+    // console.log(snapshot.docs);
+    callBackFn(snapshot.docs);
+    // loginCheck(user);
+  });
+};
+const q = collection(db, 'posts');
+export const unsubscribe = (funct) => {
+  onSnapshot(q, (snapshot) => {
+    const changes = snapshot.docChanges();
+    funct(changes);
+    // changes.forEach((change) => {
+    //   if (change.type == 'added') {
+    //     console.log(change.doc.data());
+    //   }
+    // });
+  });
+};
+  // const q = query(collection(db, 'posts'), where('Title', '==', 'Publicación')); .orderBy('data')
+  // const sShot = snapshot.docChanges();
+  // return sShot;
+  // .forEach((change) => {
+  // if (change.type === 'added') {
+  //   const newestPost = change.doc.data();
+  //   return newestPost;
+  // }
+  // if (change.type === 'modified') {
+  //   console.log('Modified post: ', change.doc.data());
+  // }
+  // if (change.type === 'removed') {
+  //   console.log('Removed post: ', change.doc.data());
+  // }

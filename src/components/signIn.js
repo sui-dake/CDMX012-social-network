@@ -51,6 +51,7 @@ export const SignIn = () => {
   Object.assign(submitAction, {
     id: 'creat_acc',
     type: 'submit',
+    class: 'loggedOut',
     value: 'Crear cuenta',
   });
   document.body.appendChild(submitAction);
@@ -69,6 +70,7 @@ export const SignIn = () => {
     signInFunct(email, password);
 
     saveForm(name, email, password);
+    onNavigate('/timeLine');
   });
   const footerImg = document.createElement('img');
   footerImg.src = 'imagenes/perrito1.jpg';

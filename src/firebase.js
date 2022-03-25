@@ -1,5 +1,4 @@
 import { initializeApp } from 'https://www.gstatic.com/firebasejs/9.6.8/firebase-app.js';
-import { impresion } from './components/home.js';
 import {
   getFirestore,
   collection,
@@ -22,6 +21,7 @@ import {
   signInWithRedirect,
   FacebookAuthProvider,
 } from 'https://www.gstatic.com/firebasejs/9.6.8/firebase-auth.js';
+import { impresion } from './components/signIn.js';
 
 const firebaseConfig = {
   apiKey: 'AIzaSyAiKKsrEJpCx8NgpvvcNp1dykxNjEyzqe0',
@@ -134,7 +134,6 @@ export const loginInFunct = (email, password) => {
       const errores = (tkn) => {
         if (tkn === 'auth/invalid-email') {
           console.log('Por favor ingresa un correo válido');
-
         }
         if (tkn === 'auth/wrong-password') {
           console.log('Tu contraseña es incorrecta');
@@ -145,7 +144,9 @@ export const loginInFunct = (email, password) => {
           );
         }
       };
-      return errores(errorCode);
+      errores(errorCode);
+      // console.log(typeof mensaje);
+      // impresion(mensaje);
     });
 };
 // crear fun para errores (traducciones)

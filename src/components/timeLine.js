@@ -21,16 +21,50 @@ export const TimeLine = () => {
   // headerImg.src = 'imagenes/logo_small.png';
   // headerImg.setAttribute('id', 'logo_hex');
   // document.body.appendChild(headerImg);
-
-  /* Boton de cerrar sesión */
-  const logOutAction = document.createElement('input');
-  Object.assign(logOutAction, {
-    id: 'logOutAct',
-    type: 'submit',
-    class: 'loggedIn',
-    value: 'Cerrar sesión',
+  // /////////////////////// HEADER /////////////////////////
+  const header = document.createElement('header');
+  header.setAttribute('id', 'tlHeader');
+  const headerLogo = document.createElement('img');
+  headerLogo.src = 'imagenes/logo_small.png';
+  headerLogo.setAttribute('id', 'logo_hexagonal2');
+  document.body.appendChild(headerLogo);
+  const headerInbox = document.createElement('img');
+  headerInbox.src = 'imagenes/inbox.png';
+  headerInbox.setAttribute('id', 'inbox');
+  document.body.appendChild(headerInbox);
+  const headerProfile = document.createElement('img');
+  headerProfile.setAttribute('class', 'modal');
+  Object.assign(headerProfile, {
+    id: 'profile',
+    type: 'button',
+    src: 'imagenes/proto_profile.png',
   });
-  document.body.appendChild(logOutAction);
+  document.body.appendChild(headerProfile);
+  headerProfile.addEventListener('click', () => {
+    onNavigate('/profile');
+  });
+  //   console.log('ahhh');
+  //   const dropDown = document.createElement('select');
+  //   Object.assign(dropDown, {
+  //     id: 'ddMenu',
+  //     name: 'options',
+  //   });
+  //   const ddOption1 = document.createElement('option');
+  //   Object.assign(ddOption1, {
+  //     textContent: 'Ir a mi perfil',
+  //     value: 'goProfile',
+  //   });
+  //   const ddOption2 = document.createElement('option');
+  //   Object.assign(ddOption2, {
+  //     textContent: 'Cerrar sesion',
+  //     value: 'logOut',
+  //   });
+  //   dropDown.append(ddOption1, ddOption2);
+  //   headerProfile.append(dropDown);
+  // });
+
+  header.append(headerProfile, headerLogo, headerInbox);
+  /* Boton de cerrar sesión */
 
   /* Div de las publicaciones */
 
@@ -38,47 +72,14 @@ export const TimeLine = () => {
   postContainer.setAttribute('id', 'postContainer');
   document.body.appendChild(postContainer);
 
-  logOutAction.addEventListener('click', (e) => {
-    e.preventDefault();
-    document.querySelector('#logOutAct');
-    onNavigate('/');
-    logOutFunct();
-  });
-
   const setUpPost = (posts) => {
     while (setUpPost.firstChild) {
       setUpPost.removeChild(setUpPost.firstChild);
     }
-    const newPost = document.createElement('textarea');
-    Object.assign(newPost, {
-      name: 'post',
-      rows: '10',
-      cols: '50',
-      id: 'newPost',
-      class: 'newPost',
-      placeholder: '¿Qué estás pensando?',
-    });
-    // document.body.appendChild(newPost);
 
-    const postButton = document.createElement('input');
-    Object.assign(postButton, {
-      type: 'submit',
-      value: 'Postear',
-      id: 'postButton',
-    });
-    // document.body.appendChild(postButton);
-
-    postButton.addEventListener('click', (e) => {
-      e.preventDefault();
-      // const postDescription = document.querySelector('#newPost');
-      savePost('Publicación', newPost.value, new Date());
-    });
-    // const postList = document.getElementById('postContainer');
-    postContainer.append(newPost, postButton);
     /// ///////////////////////////////////////////////////////////////////////////
     posts.forEach((change) => {
       if (change.type == 'added') {
-        console.log(change.doc.data());
         // while (postList.firstChild) {
         //   postList.removeChild(postList.lastChild);
         // }
@@ -100,9 +101,52 @@ export const TimeLine = () => {
     });
     /// /////////////////////////////////////////////////////////////
   };
-  unsubscribe(setUpPost);
+  const newPost = document.createElement('textarea');
+  Object.assign(newPost, {
+    name: 'post',
+    rows: '10',
+    cols: '50',
+    id: 'newPost',
+    class: 'newPost',
+    placeholder: '¿Qué estás pensando?',
+  });
+  // document.body.appendChild(newPost);
 
-  timeLineDiv.append(logOutAction, postContainer);
+  const postButton = document.createElement('input');
+  Object.assign(postButton, {
+    type: 'submit',
+    value: 'Postear',
+    id: 'postButton',
+  });
+  // document.body.appendChild(postButton);
+
+  postButton.addEventListener('click', () => {
+    // const postDescription = document.querySelector('#newPost');
+    savePost('Publicación', newPost.value, new Date());
+  });
+  // const postList = document.getElementById('postContainer');
+
+  postContainer.append(newPost, postButton);
+  unsubscribe(setUpPost);
+  const footer = document.createElement('footer');
+  Object.assign(footer, {
+    id: 'mainFooter',
+  });
+  const homeFooter = document.createElement('img');
+  Object.assign(homeFooter, {
+    id: 'homeFooter',
+    type: 'button',
+    src: 'imagenes/home2.png',
+  });
+  const searchFooter = document.createElement('img');
+  Object.assign(searchFooter, {
+    id: 'searchFooter',
+    type: 'button',
+    src: 'imagenes/lupa.png',
+  });
+  footer.append(homeFooter, searchFooter);
+  document.body.appendChild(footer);
+  timeLineDiv.append(header, postContainer);
   return timeLineDiv;
 };
 

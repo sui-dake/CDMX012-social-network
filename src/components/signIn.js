@@ -87,12 +87,13 @@ export const SignIn = () => {
 
 export const impresion = (tkn) => {
   tkn.forEach((error) => {
-    const errorLine = document.createElement('p');
-    Object.assign(errorLine, {
-      id: 'errorLine',
-      textContent: error,
-    });
-    document.body.appendChild(errorLine);
+    console.log(error);
+    // const errorLine = document.createElement('p');
+    // Object.assign(errorLine, {
+    //   id: 'errorLine',
+    //   textContent: error,
+    // });
+    //console.log(errorLine);
   });
 };
   // FALTA OPCION PARA RESETEAR FORMULARIO !!!! ////

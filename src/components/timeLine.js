@@ -71,7 +71,7 @@ export const TimeLine = () => {
     postButton.addEventListener('click', (e) => {
       e.preventDefault();
       // const postDescription = document.querySelector('#newPost');
-      savePost('Publicación', newPost.value);
+      savePost('Publicación', newPost.value, new Date());
     });
     // const postList = document.getElementById('postContainer');
     postContainer.append(newPost, postButton);
@@ -99,34 +99,36 @@ export const TimeLine = () => {
       }
     });
     /// /////////////////////////////////////////////////////////////
-
-    // if (posts.length > 0) {
-    //   posts.forEach((doc) => {
-    //     const post = doc.data();
-    //     const articleContent = document.createElement('article');
-    //     articleContent.setAttribute('id', 'articleContent');
-
-    //     const titleH3 = document.createElement('h3');
-    //     titleH3.append(post.Title);
-
-    //     const postContent = document.createElement('p');
-    //     Object.assign(postContent, {
-    //       id: 'postContent',
-    //       textContent: post.Description,
-    //     });
-    //     document.body.appendChild(postContent);
-    //     articleContent.append(titleH3, postContent);
-    //     postList.append(newPost, postButton, articleContent);
-    //   });
-    // } else {
-    // }
-    // });
   };
   unsubscribe(setUpPost);
 
   timeLineDiv.append(logOutAction, postContainer);
   return timeLineDiv;
 };
+
+// if (posts.length > 0) {
+//   posts.forEach((doc) => {
+//     const post = doc.data();
+//     const articleContent = document.createElement('article');
+//     articleContent.setAttribute('id', 'articleContent');
+
+//     const titleH3 = document.createElement('h3');
+//     titleH3.append(post.Title);
+
+//     const postContent = document.createElement('p');
+//     Object.assign(postContent, {
+//       id: 'postContent',
+//       textContent: post.Description,
+//     });
+//     document.body.appendChild(postContent);
+//     articleContent.append(titleH3, postContent);
+//     postList.append(newPost, postButton, articleContent);
+//   });
+// } else {
+//  postList.innerHTML = 'Inicia sesión para ver tus posts';
+
+// }
+// });
 
 // const loggedOutLinks = document.querySelectorAll(".loggedOut");
 // const loggedInLinks = document.querySelectorAll(".loggedIn");

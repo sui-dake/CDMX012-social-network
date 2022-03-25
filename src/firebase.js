@@ -1,12 +1,14 @@
 import { initializeApp } from 'https://www.gstatic.com/firebasejs/9.6.8/firebase-app.js';
-
+import { impresion } from './components/home.js';
 import {
   getFirestore,
   collection,
   addDoc,
   getDocs,
+  doc,
   onSnapshot,
   query, where,
+  orderBy,
 
 } from 'https://www.gstatic.com/firebasejs/9.6.8/firebase-firestore.js';
 import {
@@ -45,7 +47,21 @@ export const signInFunct = (email, pass) => {
     .catch((error) => {
       const errorCode = error.code;
       const errorMessage = error.message;
-      alert(errorMessage);
+      const errores = (tkn) => {
+        if (tkn === 'auth/invalid-email') {
+          alert('Por favor ingresa un correo válido');
+        }
+        if (tkn === 'auth/weak-password') {
+          alert('Tu contraseña debe contener al menos 6 carácteres.');
+        }
+        if (tkn === 'auth/email-already-in-use') {
+          alert(
+            'Ya existe una cuenta con este correo, intenta con uno nuevo o Inicia Sesión',
+          );
+        }
+      };
+      const resultado = errores(errorCode);
+      return resultado;
     });
 };
 
@@ -53,8 +69,8 @@ export const saveForm = (name, email, password) => {
   addDoc(collection(db, 'users'), { name, email, password });
 };
 
-export const savePost = (Title, Description) => {
-  addDoc(collection(db, 'posts'), { Title, Description });
+export const savePost = (Title, Description, date) => {
+  addDoc(collection(db, 'posts'), { Title, Description, date });
 };
 
 // Crear cuenta con Google
@@ -109,14 +125,30 @@ export const loginInFunct = (email, password) => {
   signInWithEmailAndPassword(auth, email, password)
     .then((userCredential) => {
       const user = userCredential.user;
+      console.log(user);
     })
     .catch((error) => {
       const errorCode = error.code;
+      console.log(errorCode);
       const errorMessage = error.message;
-      alert(errorMessage);
+      const errores = (tkn) => {
+        if (tkn === 'auth/invalid-email') {
+          console.log('Por favor ingresa un correo válido');
+
+        }
+        if (tkn === 'auth/wrong-password') {
+          console.log('Tu contraseña es incorrecta');
+        }
+        if (tkn === 'auth/user-not-found') {
+          console.log(
+            'Correo no registrado, crea una cuenta',
+          );
+        }
+      };
+      return errores(errorCode);
     });
 };
-
+// crear fun para errores (traducciones)
 // Función cerrar sesión
 export const logOutFunct = () => {
   signOut(auth)
@@ -136,29 +168,43 @@ export const dataCall = (callBackFn) => {
     // loginCheck(user);
   });
 };
+
 const q = collection(db, 'posts');
+
+const w = query(q, orderBy('date', 'desc'));
 export const unsubscribe = (funct) => {
-  onSnapshot(q, (snapshot) => {
-    const changes = snapshot.docChanges();
-    funct(changes);
-    // changes.forEach((change) => {
-    //   if (change.type == 'added') {
-    //     console.log(change.doc.data());
-    //   }
-    // });
+  onAuthStateChanged(auth, (user) => {
+    if (user) {
+      const uid = user.uid;
+      console.log('cuenta loggeada');
+      onSnapshot(w, (snapshot) => {
+        const changes = snapshot.docChanges();
+        funct(changes);
+      });
+    }
   });
 };
-  // const q = query(collection(db, 'posts'), where('Title', '==', 'Publicación')); .orderBy('data')
-  // const sShot = snapshot.docChanges();
-  // return sShot;
-  // .forEach((change) => {
-  // if (change.type === 'added') {
-  //   const newestPost = change.doc.data();
-  //   return newestPost;
-  // }
-  // if (change.type === 'modified') {
-  //   console.log('Modified post: ', change.doc.data());
-  // }
-  // if (change.type === 'removed') {
-  //   console.log('Removed post: ', change.doc.data());
-  // }
+
+export const stateChange = () => {
+  onAuthStateChanged(auth, (user) => {
+    if (user) {
+      const uid = user.uid;
+      console.log('cuenta loggeada');
+    }
+  });
+};
+
+// const q = query(collection(db, 'posts'), where('Title', '==', 'Publicación')); .orderBy('data')
+// const sShot = snapshot.docChanges();
+// return sShot;
+// .forEach((change) => {
+// if (change.type === 'added') {
+//   const newestPost = change.doc.data();
+//   return newestPost;
+// }
+// if (change.type === 'modified') {
+//   console.log('Modified post: ', change.doc.data());
+// }
+// if (change.type === 'removed') {
+//   console.log('Removed post: ', change.doc.data());
+// }

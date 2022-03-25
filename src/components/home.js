@@ -2,7 +2,9 @@
 /* eslint-disable spaced-comment */
 // eslint-disable-next-line import/no-cycle
 import { onNavigate } from '../app.js';
-import { loginInFunct, googleLogin, facebookLog } from '../firebase.js';
+import {
+ loginInFunct, googleLogin, facebookLog, stateChange,
+} from '../firebase.js';
 
 export const Home = () => {
   // const homeLogo = document.createElement('header');
@@ -87,12 +89,28 @@ export const Home = () => {
 
     const email = document.querySelector('#log_email').value;
     const password = document.querySelector('#log_password').value;
-    loginInFunct(email, password);
+    // loginInFunct(email, password);
+    // onNavigate('/timeLine');
+
+    // if(email existe en doc.user.email){
+      // if(password == doc.user.pass del mismo email){
+        // llevar a /timeline
+    //}
+    // alert ('correo no registrado, contra invalida')
+    //} hacer fun impresion  (token) => {}
+
+    if ((email != [] || password != []) && (password.length >= 6)) {
+      loginInFunct(email, password);
+      onNavigate('/timeLine');
+    } else {
+      onNavigate('/');
+      //  alert('correo o contraseña invalidos');
+    }
   });
 
-  submitAction.addEventListener('click', () => {
-    onNavigate('/timeLine');
-  });
+  // submitAction.addEventListener('click', () => {
+  //   onNavigate('/timeLine');
+  // });
   createAcc.addEventListener('click', () => {
     onNavigate('/signIn');
   });
@@ -115,6 +133,7 @@ export const Home = () => {
   );
   return HomeDiv;
 };
+
 
 // revisar si está loggeada,mostrar timeline, else manda login
 // hacer de home y todas las js una function

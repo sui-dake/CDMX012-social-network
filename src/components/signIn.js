@@ -84,5 +84,16 @@ export const SignIn = () => {
   );
   return SignInDiv;
 };
+
+export const impresion = (tkn) => {
+  tkn.forEach((error) => {
+    const errorLine = document.createElement('p');
+    Object.assign(errorLine, {
+      id: 'errorLine',
+      textContent: error,
+    });
+    document.body.appendChild(errorLine);
+  });
+};
   // FALTA OPCION PARA RESETEAR FORMULARIO !!!! ////
 // export const signIn =

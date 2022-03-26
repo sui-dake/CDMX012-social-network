@@ -94,8 +94,16 @@ export const TimeLine = () => {
           id: 'postContent',
           textContent: change.doc.data().Description,
         });
-        // document.body.appendChild(postContent);
-        articleContent.append(titleH3, postContent);
+        const likeDiv = document.createElement('div');
+        likeDiv.setAttribute('id', 'likeDiv');
+        const likeB = document.createElement('img');
+        Object.assign(likeB, {
+          id: 'likeB',
+          type: 'button',
+          src: 'imagenes/paw.png',
+        });
+        likeDiv.append(likeB);
+        articleContent.append(titleH3, postContent, likeDiv);
         postContainer.append(articleContent);
       }
     });
@@ -120,14 +128,19 @@ export const TimeLine = () => {
   });
   // document.body.appendChild(postButton);
 
-  postButton.addEventListener('click', () => {
-    // const postDescription = document.querySelector('#newPost');
-    savePost('Publicación', newPost.value, new Date());
-  });
   // const postList = document.getElementById('postContainer');
 
   postContainer.append(newPost, postButton);
   unsubscribe(setUpPost);
+  postButton.addEventListener('click', () => {
+    if (newPost.value != []) {
+      savePost('Usuarix', newPost.value, new Date());
+    } else {
+      alert('No escribiste nada!');
+    }
+  });
+
+  // ///////// FOOTER ////////////////////
   const footer = document.createElement('footer');
   Object.assign(footer, {
     id: 'mainFooter',
@@ -138,6 +151,9 @@ export const TimeLine = () => {
     type: 'button',
     src: 'imagenes/home2.png',
   });
+  homeFooter.addEventListener('click', () => {
+    onNavigate('/timeLine');
+  });
   const searchFooter = document.createElement('img');
   Object.assign(searchFooter, {
     id: 'searchFooter',
@@ -146,7 +162,7 @@ export const TimeLine = () => {
   });
   footer.append(homeFooter, searchFooter);
   document.body.appendChild(footer);
-  timeLineDiv.append(header, postContainer);
+  timeLineDiv.append(header, postContainer, footer);
   return timeLineDiv;
 };
 

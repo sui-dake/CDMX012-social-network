@@ -70,7 +70,7 @@ export const saveForm = (name, email, password) => {
 };
 
 export const savePost = (Title, Description, date) => {
-  addDoc(collection(db, 'posts'), { Title, Description, date });
+  addDoc(collection(db, 'posts'), { Title, Description, date});
 };
 
 // Crear cuenta con Google

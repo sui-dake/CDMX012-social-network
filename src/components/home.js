@@ -36,6 +36,20 @@ export const Home = () => {
   });
   passInput.setAttribute('class', 'mailAndPass');
   document.body.appendChild(passInput);
+  const showPass = document.createElement('img');
+  Object.assign(showPass, {
+    id: 'showPass',
+    type: 'button',
+    src: 'imagenes/eye.png',
+  });
+  document.body.appendChild(showPass);
+  showPass.addEventListener('click', () => {
+  if (passInput.type === 'password') {
+    passInput.type = 'text';
+  } else {
+    passInput.type = 'password';
+  }
+  });
   const submitAction = document.createElement('input');
   Object.assign(submitAction, {
     id: 'login',
@@ -81,7 +95,7 @@ export const Home = () => {
   const footer = document.createElement('footer');
   footer.setAttribute('id', 'footr');
   footer.textContent = 'CopyRight @Ale, Ro y Sui';
-  loginInputs.append(emailInput, passInput, submitAction, footer);
+  loginInputs.append(emailInput, passInput, showPass, submitAction, footer);
   // fbBtnLogin.textContent = 'Iniciar Sesión con Facebook';
 
   submitAction.addEventListener('click', (e) => {
@@ -133,7 +147,6 @@ export const Home = () => {
   );
   return HomeDiv;
 };
-
 
 // revisar si está loggeada,mostrar timeline, else manda login
 // hacer de home y todas las js una function

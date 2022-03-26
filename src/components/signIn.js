@@ -44,7 +44,21 @@ export const SignIn = () => {
     placeholder: 'Contraseña',
   });
   passInput.setAttribute('class', 'mailAndPass');
+  const showPass = document.createElement('img');
+  Object.assign(showPass, {
+    id: 'showPass',
+    type: 'button',
+    src: 'imagenes/eye.png',
+  });
+  showPass.addEventListener('click', () => {
+    if (passInput.type === 'password') {
+      passInput.type = 'text';
+    } else {
+      passInput.type = 'password';
+    }
+  });
   document.body.appendChild(passInput);
+  document.body.appendChild(showPass);
 
   // Boton crear cuenta
   const submitAction = document.createElement('input');
@@ -57,7 +71,7 @@ export const SignIn = () => {
   document.body.appendChild(submitAction);
 
   /// ///// PINTAR NODOS EN HTML ////////
-  signInInputs.append(nameInput, emailInput, passInput, submitAction);
+  signInInputs.append(nameInput, emailInput, passInput, showPass, submitAction);
 
   /// ///// INTERACCION FIRESTORE Y AUTH ////////
   submitAction.addEventListener('click', (e) => {
@@ -93,7 +107,7 @@ export const impresion = (tkn) => {
     //   id: 'errorLine',
     //   textContent: error,
     // });
-    //console.log(errorLine);
+    // console.log(errorLine);
   });
 };
   // FALTA OPCION PARA RESETEAR FORMULARIO !!!! ////

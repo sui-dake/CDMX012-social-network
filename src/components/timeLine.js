@@ -103,7 +103,7 @@ export const TimeLine = () => {
           type: 'button',
           src: 'imagenes/paw.png',
         });
-        likeDiv.prepend(likeB);
+        likeDiv.append(likeB);
         articleContent.append(titleH3, postContent, likeDiv);
         postContainer.append(articleContent);
       }//no usar append
@@ -127,9 +127,6 @@ export const TimeLine = () => {
     value: 'Postear',
     id: 'postButton',
   });
-  // document.body.appendChild(postButton);
-
-  // const postList = document.getElementById('postContainer');
 
   postContainer.append(newPost, postButton);
   unsubscribe(setUpPost);

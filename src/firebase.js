@@ -160,25 +160,23 @@ export const logOutFunct = () => {
 };
 
 export const dataCall = (callBackFn) => {
-  // console.log(user.email);
   getDocs(collection(db, 'posts')).then((snapshot) => {
     // const querySnapshot = await getDocs(q);
     // querySnapshot.forEach((doc) => {
     // console.log(snapshot.docs);
     callBackFn(snapshot.docs);
-    // loginCheck(user);
   });
 };
 
-const q = collection(db, 'posts');
+const datos = collection(db, 'posts');
 
-const w = query(q, orderBy('date', 'desc'));
+const datosOrdenados = query(datos, orderBy('date', 'desc'));
 export const unsubscribe = (funct) => {
   onAuthStateChanged(auth, (user) => {
     if (user) {
       const uid = user.uid;
       console.log('cuenta loggeada');
-      onSnapshot(w, (snapshot) => {
+      onSnapshot(datosOrdenados, (snapshot) => {
         const changes = snapshot.docChanges();
         funct(changes);
       });

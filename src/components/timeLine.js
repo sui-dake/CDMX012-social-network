@@ -76,6 +76,7 @@ export const TimeLine = () => {
     while (setUpPost.firstChild) {
       setUpPost.removeChild(setUpPost.firstChild);
     }
+    console.log({posts});
 
     /// ///////////////////////////////////////////////////////////////////////////
     posts.forEach((change) => {
@@ -102,10 +103,10 @@ export const TimeLine = () => {
           type: 'button',
           src: 'imagenes/paw.png',
         });
-        likeDiv.append(likeB);
+        likeDiv.prepend(likeB);
         articleContent.append(titleH3, postContent, likeDiv);
         postContainer.append(articleContent);
-      }
+      }//no usar append
     });
     /// /////////////////////////////////////////////////////////////
   };

@@ -181,7 +181,7 @@ export const unsubscribe = (funct) => {
     if (user) {
       const uid = user.uid;
       console.log('cuenta loggeada');
-      onSnapshot(datosOrdenados, (snapshot) => {
+      onSnapshot(w, (snapshot) => {
         const changes = snapshot.docChanges();
         funct(changes);
       });

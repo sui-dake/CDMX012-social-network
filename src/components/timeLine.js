@@ -108,6 +108,7 @@ export const TimeLine = () => {
         postContainer.append(articleContent);
       }//no usar append
     });
+    
     /// /////////////////////////////////////////////////////////////
   };
   const newPost = document.createElement('textarea');

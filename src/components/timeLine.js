@@ -1,26 +1,16 @@
-// import { async } from 'regenerator-runtime';
 import { onNavigate } from '../app.js';
-
 import {
+<<<<<<< HEAD
   logOutFunct, dataCall, savePost, unsubscribe,
+=======
+  logOutFunct,savePost, unsubscribe,
+>>>>>>> 47076133b81a635c991b6aadb62f7420b813bf90
 } from '../firebase.js';
-
-// window.addEventListener('DOMContentLoaded', async () => {
-//   const querySnapshot = await getTaks();
-
-//   querySnapshot.forEach(doc => {
-//     console.log(doc);
-//   });
-// });
 
 export const TimeLine = () => {
   const timeLineDiv = document.createElement('div');
   timeLineDiv.setAttribute('id', 'timeLineDive');
 
-  // const headerImg = document.createElement('img');
-  // headerImg.src = 'imagenes/logo_small.png';
-  // headerImg.setAttribute('id', 'logo_hex');
-  // document.body.appendChild(headerImg);
   // /////////////////////// HEADER /////////////////////////
   const header = document.createElement('header');
   header.setAttribute('id', 'tlHeader');
@@ -64,9 +54,13 @@ export const TimeLine = () => {
   // });
 
   header.append(headerProfile, headerLogo, headerInbox);
-  /* Boton de cerrar sesión */
+  const wraper= document.createElement('div');
+ wraper.setAttribute('id', 'wraper');
+
 
   /* Div de las publicaciones */
+  const inputs= document.createElement('section');
+  inputs.setAttribute('id', 'inputSection');
 
   const postContainer = document.createElement('div');
   postContainer.setAttribute('id', 'postContainer');
@@ -120,7 +114,6 @@ export const TimeLine = () => {
     class: 'newPost',
     placeholder: '¿Qué estás pensando?',
   });
-  // document.body.appendChild(newPost);
 
   const postButton = document.createElement('input');
   Object.assign(postButton, {
@@ -128,16 +121,76 @@ export const TimeLine = () => {
     value: 'Postear',
     id: 'postButton',
   });
+<<<<<<< HEAD
 
   postContainer.append(newPost, postButton);
   unsubscribe(setUpPost);
   postButton.addEventListener('click', () => {
     if (newPost.value != []) {
       savePost('Usuarix', newPost.value, new Date());
+=======
+  
+  inputs.append(newPost,postButton);
+
+
+  const setUpPost = (posts) => {
+    
+    posts.forEach((change) => {
+        const articleContent = document.createElement('article');
+        articleContent.setAttribute('id', 'articleContent');
+        
+        const titleH3 = document.createElement('h3');
+        titleH3.append (change.doc.data().email);
+
+        const postContent = document.createElement('p');
+        Object.assign(postContent, {
+          id: 'postContent',
+          textContent:change.doc.data().Description,
+        });
+        const likeDiv = document.createElement('div');
+        likeDiv.setAttribute('id', 'likeDiv');
+        const likeB = document.createElement('img');
+        Object.assign(likeB, {
+          id: 'likeB',
+          type: 'button',
+          src: 'imagenes/paw.png',
+        });
+
+       const uids= change.doc.data().uid;
+       console.log(uids);
+       const likes= change.doc.data().like;
+       console.log(likes);
+       if(likes == []){
+        likeB.addEventListener('click', () =>{
+          likes++;
+          console.log("like+1")
+        })
+       }   
+        likeDiv.appendChild(likeB);
+        articleContent.append(titleH3, postContent, likeDiv);
+        postContainer.insertBefore(articleContent, postContainer.firstChild);
+        
+       
+    });
+  };
+ 
+  unsubscribe(setUpPost);
+  wraper.append(inputs, postContainer);
+
+  
+  postButton.addEventListener('click', () => {
+    if (newPost.value != []) {
+      savePost( newPost.value, new Date(), []);
+  
+>>>>>>> 47076133b81a635c991b6aadb62f7420b813bf90
     } else {
       alert('No escribiste nada!');
     }
   });
+<<<<<<< HEAD
+=======
+ 
+>>>>>>> 47076133b81a635c991b6aadb62f7420b813bf90
 
   // ///////// FOOTER ////////////////////
   const footer = document.createElement('footer');
@@ -161,42 +214,9 @@ export const TimeLine = () => {
   });
   footer.append(homeFooter, searchFooter);
   document.body.appendChild(footer);
-  timeLineDiv.append(header, postContainer, footer);
+  timeLineDiv.append(header,wraper, footer);
   return timeLineDiv;
 };
 
-// if (posts.length > 0) {
-//   posts.forEach((doc) => {
-//     const post = doc.data();
-//     const articleContent = document.createElement('article');
-//     articleContent.setAttribute('id', 'articleContent');
 
-//     const titleH3 = document.createElement('h3');
-//     titleH3.append(post.Title);
 
-//     const postContent = document.createElement('p');
-//     Object.assign(postContent, {
-//       id: 'postContent',
-//       textContent: post.Description,
-//     });
-//     document.body.appendChild(postContent);
-//     articleContent.append(titleH3, postContent);
-//     postList.append(newPost, postButton, articleContent);
-//   });
-// } else {
-//  postList.innerHTML = 'Inicia sesión para ver tus posts';
-
-// }
-// });
-
-// const loggedOutLinks = document.querySelectorAll(".loggedOut");
-// const loggedInLinks = document.querySelectorAll(".loggedIn");
-// export const loginCheck = (user) => {
-//   if (user) {
-//     loggedInLinks.forEach((link) => (link.style.display = 'block'));
-//     loggedOutLinks.forEach((link) => (link.style.display = 'none'));
-//   } else {
-//     loggedInLinks.forEach((link) => (link.style.display = 'none'));
-//     loggedOutLinks.forEach((link) => (link.style.display = 'block'));
-//   }
-// };

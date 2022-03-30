@@ -1,10 +1,7 @@
 import { onNavigate } from '../app.js';
 import {
-<<<<<<< HEAD
-  logOutFunct, dataCall, savePost, unsubscribe,
-=======
-  logOutFunct,savePost, unsubscribe,
->>>>>>> 47076133b81a635c991b6aadb62f7420b813bf90
+  likely,
+  logOutFunct, savePost, unsubscribe,
 } from '../firebase.js';
 
 export const TimeLine = () => {
@@ -33,78 +30,18 @@ export const TimeLine = () => {
   headerProfile.addEventListener('click', () => {
     onNavigate('/profile');
   });
-  //   console.log('ahhh');
-  //   const dropDown = document.createElement('select');
-  //   Object.assign(dropDown, {
-  //     id: 'ddMenu',
-  //     name: 'options',
-  //   });
-  //   const ddOption1 = document.createElement('option');
-  //   Object.assign(ddOption1, {
-  //     textContent: 'Ir a mi perfil',
-  //     value: 'goProfile',
-  //   });
-  //   const ddOption2 = document.createElement('option');
-  //   Object.assign(ddOption2, {
-  //     textContent: 'Cerrar sesion',
-  //     value: 'logOut',
-  //   });
-  //   dropDown.append(ddOption1, ddOption2);
-  //   headerProfile.append(dropDown);
-  // });
 
   header.append(headerProfile, headerLogo, headerInbox);
-  const wraper= document.createElement('div');
- wraper.setAttribute('id', 'wraper');
-
+  const wraper = document.createElement('div');
+  wraper.setAttribute('id', 'wraper');
 
   /* Div de las publicaciones */
-  const inputs= document.createElement('section');
+  const inputs = document.createElement('section');
   inputs.setAttribute('id', 'inputSection');
 
   const postContainer = document.createElement('div');
   postContainer.setAttribute('id', 'postContainer');
   document.body.appendChild(postContainer);
-
-  const setUpPost = (posts) => {
-    while (setUpPost.firstChild) {
-      setUpPost.removeChild(setUpPost.firstChild);
-    }
-    console.log({posts});
-
-    /// ///////////////////////////////////////////////////////////////////////////
-    posts.forEach((change) => {
-      if (change.type == 'added') {
-        // while (postList.firstChild) {
-        //   postList.removeChild(postList.lastChild);
-        // }
-        const articleContent = document.createElement('article');
-        articleContent.setAttribute('id', 'articleContent');
-
-        const titleH3 = document.createElement('h3');
-        titleH3.append(change.doc.data().Title);
-
-        const postContent = document.createElement('p');
-        Object.assign(postContent, {
-          id: 'postContent',
-          textContent: change.doc.data().Description,
-        });
-        const likeDiv = document.createElement('div');
-        likeDiv.setAttribute('id', 'likeDiv');
-        const likeB = document.createElement('img');
-        Object.assign(likeB, {
-          id: 'likeB',
-          type: 'button',
-          src: 'imagenes/paw.png',
-        });
-        likeDiv.append(likeB);
-        articleContent.append(titleH3, postContent, likeDiv);
-        postContainer.append(articleContent);
-      }//no usar append
-    });
-    
-    /// /////////////////////////////////////////////////////////////
-  };
   const newPost = document.createElement('textarea');
   Object.assign(newPost, {
     name: 'post',
@@ -121,76 +58,57 @@ export const TimeLine = () => {
     value: 'Postear',
     id: 'postButton',
   });
-<<<<<<< HEAD
 
-  postContainer.append(newPost, postButton);
-  unsubscribe(setUpPost);
-  postButton.addEventListener('click', () => {
-    if (newPost.value != []) {
-      savePost('Usuarix', newPost.value, new Date());
-=======
-  
-  inputs.append(newPost,postButton);
-
+  inputs.append(newPost, postButton);
 
   const setUpPost = (posts) => {
-    
     posts.forEach((change) => {
-        const articleContent = document.createElement('article');
-        articleContent.setAttribute('id', 'articleContent');
-        
-        const titleH3 = document.createElement('h3');
-        titleH3.append (change.doc.data().email);
+      const articleContent = document.createElement('article');
+      articleContent.setAttribute('id', 'articleContent');
 
-        const postContent = document.createElement('p');
-        Object.assign(postContent, {
-          id: 'postContent',
-          textContent:change.doc.data().Description,
-        });
-        const likeDiv = document.createElement('div');
-        likeDiv.setAttribute('id', 'likeDiv');
-        const likeB = document.createElement('img');
-        Object.assign(likeB, {
-          id: 'likeB',
-          type: 'button',
-          src: 'imagenes/paw.png',
-        });
+      const titleH3 = document.createElement('h3');
+      titleH3.append(change.doc.data().email);
 
-       const uids= change.doc.data().uid;
-       console.log(uids);
-       const likes= change.doc.data().like;
-       console.log(likes);
-       if(likes == []){
-        likeB.addEventListener('click', () =>{
-          likes++;
-          console.log("like+1")
-        })
-       }   
-        likeDiv.appendChild(likeB);
-        articleContent.append(titleH3, postContent, likeDiv);
-        postContainer.insertBefore(articleContent, postContainer.firstChild);
-        
-       
+      const postContent = document.createElement('p');
+      Object.assign(postContent, {
+        id: 'postContent',
+        textContent: change.doc.data().Description,
+      });
+      const likeDiv = document.createElement('div');
+      likeDiv.setAttribute('id', 'likeDiv');
+      const likeB = document.createElement('img');
+      Object.assign(likeB, {
+        id: 'likeB',
+        type: 'button',
+        src: 'imagenes/paw.png',
+      });
+
+      const uids = change.doc.data().UID;
+      console.log(change.doc.id);
+
+      likeB.addEventListener('click', () => {
+        const likes = change.doc.data().likes;
+        likes.push(likely);
+        console.log(likes);
+      });
+
+      likeDiv.appendChild(likeB);
+      articleContent.append(titleH3, postContent, likeDiv);
+      postContainer.insertBefore(articleContent, postContainer.firstChild);
     });
   };
- 
+
   unsubscribe(setUpPost);
   wraper.append(inputs, postContainer);
 
-  
   postButton.addEventListener('click', () => {
     if (newPost.value != []) {
-      savePost( newPost.value, new Date(), []);
-  
->>>>>>> 47076133b81a635c991b6aadb62f7420b813bf90
+      savePost(newPost.value, new Date());
+      newPost.value = '';
     } else {
       alert('No escribiste nada!');
     }
   });
-<<<<<<< HEAD
-=======
- 
->>>>>>> 47076133b81a635c991b6aadb62f7420b813bf90
 
   // ///////// FOOTER ////////////////////
   const footer = document.createElement('footer');
@@ -214,9 +132,6 @@ export const TimeLine = () => {
   });
   footer.append(homeFooter, searchFooter);
   document.body.appendChild(footer);
-  timeLineDiv.append(header,wraper, footer);
+  timeLineDiv.append(header, wraper, footer);
   return timeLineDiv;
 };
-
-
-

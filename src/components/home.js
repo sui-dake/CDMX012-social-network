@@ -3,7 +3,7 @@
 // eslint-disable-next-line import/no-cycle
 import { onNavigate } from '../app.js';
 import {
- loginInFunct, googleLogin, facebookLog 
+ loginInFunct, googleLogin, facebookLog,
 } from '../firebase.js';
 
 export const Home = () => {
@@ -55,7 +55,7 @@ export const Home = () => {
     id: 'login',
     type: 'submit',
     value: 'Iniciar Sesión',
-    class: 'loggedOut',
+    classList: 'loggedOut',
   });
   document.body.appendChild(submitAction);
 
@@ -115,7 +115,6 @@ export const Home = () => {
 
     if ((email != [] || password != []) && (password.length >= 6)) {
       loginInFunct(email, password);
-      onNavigate('/timeLine');
     } else {
       onNavigate('/');
       //  alert('correo o contraseña invalidos');

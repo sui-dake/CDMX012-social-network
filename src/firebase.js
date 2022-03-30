@@ -8,7 +8,7 @@ import {
   onSnapshot,
   query, where,
   orderBy,
-  
+
 } from 'https://www.gstatic.com/firebasejs/9.6.8/firebase-firestore.js';
 import {
   getAuth,
@@ -22,6 +22,7 @@ import {
   FacebookAuthProvider,
 } from 'https://www.gstatic.com/firebasejs/9.6.8/firebase-auth.js';
 import { impresion } from './components/signIn.js';
+import { onNavigate } from './app.js';
 
 const firebaseConfig = {
   apiKey: 'AIzaSyAiKKsrEJpCx8NgpvvcNp1dykxNjEyzqe0',
@@ -39,9 +40,9 @@ const auth = getAuth(app);
 const provider = new GoogleAuthProvider();
 const provider2 = new FacebookAuthProvider();
 
-/*const functions = require('firebase-functions');
+/* const functions = require('firebase-functions');
 const admin = require('firebase-admin');
-admin.initializeApp();*/
+admin.initializeApp(); */
 
 export const signInFunct = (email, pass) => {
   createUserWithEmailAndPassword(auth, email, pass)
@@ -73,15 +74,22 @@ export const saveForm = (name, email, password) => {
   addDoc(collection(db, 'users'), { name, email, password });
 };
 
-export const savePost = ( Description, date, like) => {
-  onAuthStateChanged(auth,(users) => { 
-  const email = users.email;
-  const UID = users.uid;
-  const likes = [];
-  addDoc(collection(db, 'posts'), { email, Description, date, likes, UID});
-})
+export const savePost = (Description, date) => {
+  onAuthStateChanged(auth, (users) => {
+    const email = users.email;
+    const UID = users.uid;
+    const likes = [];
+    addDoc(collection(db, 'posts'), {
+      email, Description, date, likes, UID,
+    });
+  });
 };
-
+export const likely = () => {
+  onAuthStateChanged(auth, (users) => {
+    const uid = users.uid;
+    return uid;
+  });
+};
 // Crear cuenta con Google
 export const googleLogin = () => {
   signInWithRedirect(auth, provider);
@@ -135,6 +143,7 @@ export const loginInFunct = (email, password) => {
     .then((userCredential) => {
       const user = userCredential.user;
       console.log(user);
+      onNavigate('/timeLine');
     })
     .catch((error) => {
       const errorCode = error.code;
@@ -168,26 +177,27 @@ export const logOutFunct = () => {
     .catch((error) => { console.log(error); });
 };
 
-/*export const dataCall = (callBackFn) => {
-  getDocs(collection(db, 'posts')).then((snapshot) =>   
+/* export const dataCall = (callBackFn) => {
+  getDocs(collection(db, 'posts')).then((snapshot) =>
     callBackFn(snapshot.docs);
-    
+
   });
-};*/
+}; */
 
 onAuthStateChanged(auth, (user) => {
   if (user) {
-     const uid = user.uid;
+    const uid = user.uid;
   }
 });
 
-const data =collection(db, 'posts');
+const data = collection(db, 'posts');
 
-const w = query(data, orderBy('date', 'asc'));
+const w = query(data, orderBy('date', 'desc'));
 export const unsubscribe = (funct) => {
-        onSnapshot(w, (snapshot) => {
-          const changes = snapshot.docChanges();
-          funct(changes);
-      });
+  onSnapshot(w, (snapshot) => {
+    const changes = snapshot.docChanges();
+    console.log(changes);
+    funct(changes);
+  });
 };
-////Likes//
+/// /Likes//

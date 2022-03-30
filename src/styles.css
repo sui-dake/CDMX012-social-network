@@ -37,6 +37,9 @@ h1{
     row-gap: 10px;
     margin: 5%;
 }
+.loggedOut{
+    background-color: aqua;
+}
 .mailAndPass{
     background-color: #E4E3E3;
     border-radius: 30px;

@@ -1,6 +1,6 @@
 import { onNavigate } from '../app.js';
 import {
-  likely,
+  likeArray,
   logOutFunct, savePost, unsubscribe,
 } from '../firebase.js';
 
@@ -62,7 +62,9 @@ export const TimeLine = () => {
   inputs.append(newPost, postButton);
 
   const setUpPost = (posts) => {
+    console.log('set_pre_4each');
     posts.forEach((change) => {
+      console.log('set_post_4each');
       const articleContent = document.createElement('article');
       articleContent.setAttribute('id', 'articleContent');
 
@@ -86,10 +88,16 @@ export const TimeLine = () => {
       const uids = change.doc.data().UID;
       console.log(change.doc.id);
 
-      likeB.addEventListener('click', () => {
-        const likes = change.doc.data().likes;
-        likes.push(likely);
-        console.log(likes);
+      likeB.addEventListener('click', (event) => {
+        if (likeB) {
+          event = change.doc.id;
+          // console.log(change.doc.id);
+          console.log('likeB');
+          likeArray(event);
+          // console.log(likeArray);
+        } else {
+        }
+        // console.log(event);
       });
 
       likeDiv.appendChild(likeB);

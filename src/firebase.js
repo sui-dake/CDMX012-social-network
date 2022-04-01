@@ -8,7 +8,8 @@ import {
   onSnapshot,
   query, where,
   orderBy,
-
+  updateDoc,
+  arrayUnion,
 } from 'https://www.gstatic.com/firebasejs/9.6.8/firebase-firestore.js';
 import {
   getAuth,
@@ -72,24 +73,22 @@ export const signInFunct = (email, pass) => {
 
 export const saveForm = (name, email, password) => {
   addDoc(collection(db, 'users'), { name, email, password });
+  console.log('saveF');
 };
 
 export const savePost = (Description, date) => {
-  onAuthStateChanged(auth, (users) => {
+  const users = auth.currentUser;
+  if (users) {
+    console.log('saveF');
     const email = users.email;
     const UID = users.uid;
     const likes = [];
     addDoc(collection(db, 'posts'), {
       email, Description, date, likes, UID,
     });
-  });
+  }
 };
-export const likely = () => {
-  onAuthStateChanged(auth, (users) => {
-    const uid = users.uid;
-    return uid;
-  });
-};
+
 // Crear cuenta con Google
 export const googleLogin = () => {
   signInWithRedirect(auth, provider);
@@ -192,8 +191,9 @@ onAuthStateChanged(auth, (user) => {
 
 const data = collection(db, 'posts');
 
-const w = query(data, orderBy('date', 'desc'));
+const w = query(data, orderBy('date', 'asc'));
 export const unsubscribe = (funct) => {
+  console.log('unsus');
   onSnapshot(w, (snapshot) => {
     const changes = snapshot.docChanges();
     console.log(changes);
@@ -201,3 +201,17 @@ export const unsubscribe = (funct) => {
   });
 };
 /// /Likes//
+export const likeArray = async (postId) => {
+  const users = auth.currentUser;
+  if (users) {
+    const userId = users.uid;
+    const postCollection = doc(db, 'posts', postId);
+    await updateDoc(postCollection, {
+      likes: arrayUnion(userId),
+    });
+    // vaciar contenido en interfaz y volverlo a imprimir;
+    // postwo.innerHTML = '';
+    // unsubscribe(postwo);
+    console.log(postCollection.likes);
+  }
+};

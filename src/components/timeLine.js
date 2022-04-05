@@ -1,7 +1,8 @@
 import { onNavigate } from '../app.js';
 import {
+  editP,
   likeArray,
-  logOutFunct, savePost, unsubscribe,
+  logOutFunct, removing, savePost, unsubscribe,
 } from '../firebase.js';
 
 export const TimeLine = () => {
@@ -63,46 +64,267 @@ export const TimeLine = () => {
 
   const setUpPost = (posts) => {
     console.log('set_pre_4each');
+
     posts.forEach((change) => {
-      console.log('set_post_4each');
-      const articleContent = document.createElement('article');
-      articleContent.setAttribute('id', 'articleContent');
+      if (change.type == 'added') {
+        console.log('set_post_4each');
+        const articleContent = document.createElement('article');
+        articleContent.setAttribute('id', change.doc.id);
+        Object.assign(articleContent, {
+          classList: 'articleContent',
+        });
 
-      const titleH3 = document.createElement('h3');
-      titleH3.append(change.doc.data().email);
+        const titleH3 = document.createElement('h3');
+        titleH3.append(change.doc.data().email);
 
-      const postContent = document.createElement('p');
-      Object.assign(postContent, {
-        id: 'postContent',
-        textContent: change.doc.data().Description,
-      });
-      const likeDiv = document.createElement('div');
-      likeDiv.setAttribute('id', 'likeDiv');
-      const likeB = document.createElement('img');
-      Object.assign(likeB, {
-        id: 'likeB',
-        type: 'button',
-        src: 'imagenes/paw.png',
-      });
+        const postContent = document.createElement('p');
+        Object.assign(postContent, {
+          id: 'postContent',
+          textContent: change.doc.data().Description,
+        });
+        const likeDiv = document.createElement('div');
+        likeDiv.setAttribute('id', 'likeDiv');
+        const likeB = document.createElement('img');
+        Object.assign(likeB, {
+          id: 'likeB',
+          type: 'button',
+          src: 'imagenes/paw.png',
+        });
 
-      const uids = change.doc.data().UID;
-      console.log(change.doc.id);
+        const editSection = document.createElement('section');
+        editSection.setAttribute('id', 'editSection');
+        const editB = document.createElement('img');
+        Object.assign(editB, {
+          id: 'editB',
+          type: 'button',
+          src: 'imagenes/edit.png',
+        });
 
-      likeB.addEventListener('click', (event) => {
-        if (likeB) {
-          event = change.doc.id;
-          // console.log(change.doc.id);
-          console.log('likeB');
-          likeArray(event);
+        const eraseSection = document.createElement('section');
+        eraseSection.setAttribute('id', 'eraseSection');
+        const eraseB = document.createElement('img');
+        Object.assign(eraseB, {
+          id: 'editB',
+          type: 'button',
+          src: 'imagenes/eraser.png',
+        });
+
+        const uids = change.doc.data().UID;
+
+        likeB.addEventListener('click', (event) => {
+          if (likeB) {
+            event = change.doc.id;
+            // console.log(change.doc.id);
+            console.log('likeB');
+            likeArray(event);
+            // postContainer.removeChild(articleContent);
+            
           // console.log(likeArray);
-        } else {
-        }
+          } else {
+          }
         // console.log(event);
-      });
+        });
+        const allLikes = change.doc.data().likes;
 
-      likeDiv.appendChild(likeB);
-      articleContent.append(titleH3, postContent, likeDiv);
-      postContainer.insertBefore(articleContent, postContainer.firstChild);
+        // editB.addEventListener('click', (event) => {
+        //   if (editB) {
+        //     event = change.doc.id;
+        //     // console.log(change.doc.id);
+        //     console.log('editB');
+
+        //     removing(event);
+        //   // console.log(likeArray);
+        //   } else {
+        //   }
+        // // console.log(event);
+        // });
+
+        likeDiv.appendChild(likeB);
+        editSection.appendChild(editB);
+        eraseSection.appendChild(eraseB);
+        articleContent.append(titleH3, postContent, likeDiv, editSection, eraseSection);
+        postContainer.insertBefore(articleContent, postContainer.firstChild);
+        eraseB.addEventListener('click', (event) => {
+          if (eraseB) {
+            event = change.doc.id;
+            // console.log(change.doc.id);
+            console.log('editB');
+
+            removing(event);
+            postContainer.removeChild(articleContent);
+          // console.log(likeArray);
+          } else {
+          }
+        // console.log(event);
+        });
+        /// /////////////////////////////////////////////
+        editB.addEventListener('click', (event) => {
+          if (editB) {
+            event = change.doc.id;
+            // console.log(change.doc.id);
+            console.log('editB');
+            const editContent = document.createElement('textarea');
+            Object.assign(editContent, {
+              id: 'editContent',
+              placeholder: change.doc.data().Description,
+            });
+            // postContent.innerHTML = 'textarea';
+            // Object.assign(postContent, {
+            //   id: 'postContent',
+            //   placeholder: change.doc.data().Description,
+            // });
+            const saveEdit = document.createElement('button');
+            Object.assign(saveEdit, {
+              id: 'saveEdit',
+              value: 'guardar',
+            });
+            articleContent.append(saveEdit, editContent);
+            saveEdit.addEventListener('click', () => {
+              // if (editContent.value != []) {
+              //   savePost(editContent.value, new Date());
+              // } else {
+              //   alert('No escribiste nada!');
+              // }
+              const edited = editContent.value;
+              console.log(edited);
+              articleContent.append(saveEdit, editContent);
+              editP(event, edited);
+              postContainer.removeChild(articleContent);
+              // postContainer.append(articleContent);
+              // console.log(likeArray);
+            });
+            // console.log(event);
+          }
+        });
+        // /////////// MODIFIED /////////////////
+      } else if (change.type == 'modified') {
+        console.log('set_post_4each');
+        const articleContent = document.createElement('article');
+        articleContent.setAttribute('id', change.doc.id);
+        Object.assign(articleContent, {
+          classList: 'articleContent',
+        });
+
+        const titleH3 = document.createElement('h3');
+        titleH3.append(change.doc.data().email);
+
+        const postContent = document.createElement('p');
+        Object.assign(postContent, {
+          id: 'postContent',
+          textContent: change.doc.data().Description,
+        });
+        const likeDiv = document.createElement('div');
+        likeDiv.setAttribute('id', 'likeDiv');
+        const likeB = document.createElement('img');
+        Object.assign(likeB, {
+          id: 'likeB',
+          type: 'button',
+          src: 'imagenes/paw.png',
+        });
+
+        const editSection = document.createElement('section');
+        editSection.setAttribute('id', 'editSection');
+        const editB = document.createElement('img');
+        Object.assign(editB, {
+          id: 'editB',
+          type: 'button',
+          src: 'imagenes/edit.png',
+        });
+
+        const eraseSection = document.createElement('section');
+        eraseSection.setAttribute('id', 'eraseSection');
+        const eraseB = document.createElement('img');
+        Object.assign(eraseB, {
+          id: 'editB',
+          type: 'button',
+          src: 'imagenes/eraser.png',
+        });
+
+        const uids = change.doc.data().UID;
+
+        likeB.addEventListener('click', (event) => {
+          if (likeB) {
+            event = change.doc.id;
+            // console.log(change.doc.id);
+            console.log('likeB');
+            likeArray(event);
+            //postContainer.removeChild(articleContent);
+          // console.log(likeArray);
+          } else {
+          }
+        // console.log(event);
+        });
+
+        // editB.addEventListener('click', (event) => {
+        //   if (editB) {
+        //     event = change.doc.id;
+        //     // console.log(change.doc.id);
+        //     console.log('editB');
+
+        //     removing(event);
+        //   // console.log(likeArray);
+        //   } else {
+        //   }
+        // // console.log(event);
+        // });
+
+        likeDiv.appendChild(likeB);
+        editSection.appendChild(editB);
+        eraseSection.appendChild(eraseB);
+        articleContent.append(titleH3, postContent, likeDiv, editSection, eraseSection);
+        postContainer.insertBefore(articleContent, postContainer.firstChild);
+        eraseB.addEventListener('click', (event) => {
+          if (eraseB) {
+            event = change.doc.id;
+            // console.log(change.doc.id);
+            console.log('editB');
+
+            removing(event);
+            postContainer.removeChild(articleContent);
+          // console.log(likeArray);
+          } else {
+          }
+        // console.log(event);
+        });
+        /// /////////////////////////////////////////////
+        editB.addEventListener('click', (event) => {
+          if (editB) {
+            event = change.doc.id;
+            // console.log(change.doc.id);
+            console.log('editB');
+            const editContent = document.createElement('textarea');
+            Object.assign(editContent, {
+              id: 'editContent',
+              placeholder: change.doc.data().Description,
+            });
+            // postContent.innerHTML = 'textarea';
+            // Object.assign(postContent, {
+            //   id: 'postContent',
+            //   placeholder: change.doc.data().Description,
+            // });
+            const saveEdit = document.createElement('button');
+            Object.assign(saveEdit, {
+              id: 'saveEdit',
+              value: 'guardar',
+            });
+            articleContent.append(saveEdit, editContent);
+            saveEdit.addEventListener('click', () => {
+              // if (editContent.value != []) {
+              //   savePost(editContent.value, new Date());
+              // } else {
+              //   alert('No escribiste nada!');
+              // }
+              const edited = editContent.value;
+              console.log(edited);
+              articleContent.append(saveEdit, editContent);
+              editP(event, edited);
+              postContainer.removeChild(articleContent);
+              // console.log(likeArray);
+            });
+            // console.log(event);
+          }
+        });
+      }
     });
   };
 

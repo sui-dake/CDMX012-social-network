@@ -181,6 +181,14 @@ header{
     height: 10%;
     width: 10%;
 }
+#editSection{
+    display: flex;
+    justify-content: space-evenly;
+}
+#editB{
+    height: 10%;
+    width: 10%;
+}
 
 #logOutAct{
     background-color: #FF7C7C;
@@ -246,5 +254,8 @@ article{
     height: 10%;
     width: 10%;
     align-self: center;
-    
+}
+#saveEdit{
+    height: 10%;
+    width: 10%;
 }

@@ -9,7 +9,9 @@ import {
   query, where,
   orderBy,
   updateDoc,
+  setDoc,
   arrayUnion,
+  deleteDoc,
 } from 'https://www.gstatic.com/firebasejs/9.6.8/firebase-firestore.js';
 import {
   getAuth,
@@ -200,6 +202,26 @@ export const unsubscribe = (funct) => {
     funct(changes);
   });
 };
+// const w = query(data, orderBy('date', 'asc'));
+// export const unsubscribe = (funct) => {
+//   console.log('unsus');
+//   let postArray = [];
+//   onSnapshot(w, (snapshot) => {
+//     const changes = snapshot.docChanges();
+//     changes.forEach((ele) => {
+//       if (ele.type === 'added') {
+//         postArray.push({
+//           id: ele.doc.id,
+//           ...ele.doc.data(),
+//         });
+//       } else if (ele.type == 'removed') {
+//       }
+//     });
+//   });
+//   console.log(postArray);
+//   funct(postArray);
+// };
+
 /// /Likes//
 export const likeArray = async (postId) => {
   const users = auth.currentUser;
@@ -212,6 +234,38 @@ export const likeArray = async (postId) => {
     // vaciar contenido en interfaz y volverlo a imprimir;
     // postwo.innerHTML = '';
     // unsubscribe(postwo);
-    console.log(postCollection.likes);
+  }
+};
+// //// EDIT POST ///
+export const editP = async (postId, postDesc) => {
+  const users = auth.currentUser;
+  if (users) {
+    const postColle = doc(db, 'posts', postId);
+    await updateDoc(postColle, {
+      Description: postDesc,
+    });
+  }
+};
+// export const editP = async (postId, postDesc, liked) => {
+//   const users = auth.currentUser;
+//   if (users) {
+//     const postColle = doc(db, 'posts', postId);
+//     await setDoc(postColle, {
+//       Description: postDesc,
+//       UID: users.uid,
+//       date: new Date(),
+//       email: users.email,
+//       //likes: [`${liked}`],
+//     });
+//   }
+// };
+// /// REMOVE POST ///
+export const removing = async (postId) => {
+  const users = auth.currentUser;
+  if (users) {
+    const userId = users.uid;
+    const postCollection = doc(db, 'posts', postId);
+    await deleteDoc(postCollection);
+    // unsubscribe(postwo);
   }
 };

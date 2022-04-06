@@ -11,6 +11,7 @@ import {
   updateDoc,
   setDoc,
   arrayUnion,
+  arrayRemove,
   deleteDoc,
 } from 'https://www.gstatic.com/firebasejs/9.6.8/firebase-firestore.js';
 import {
@@ -222,6 +223,12 @@ export const unsubscribe = (funct) => {
 //   funct(postArray);
 // };
 
+export const currUser = () => {
+  const users = auth.currentUser;
+  if (users) {
+    return users.uid;
+  }
+};
 /// /Likes//
 export const likeArray = async (postId) => {
   const users = auth.currentUser;
@@ -231,10 +238,27 @@ export const likeArray = async (postId) => {
     await updateDoc(postCollection, {
       likes: arrayUnion(userId),
     });
-    // vaciar contenido en interfaz y volverlo a imprimir;
-    // postwo.innerHTML = '';
-    // unsubscribe(postwo);
   }
+};
+export const dislike = async (postId) => {
+  const users = auth.currentUser;
+  if (users) {
+    const userId = users.uid;
+    const postCollection = doc(db, 'posts', postId);
+    await updateDoc(postCollection, {
+      likes: arrayRemove(userId),
+    });
+  }
+};
+
+export const totalLikes = (post) => {
+  const allLikes = post.doc.data().likes;
+  return allLikes.length;
+};
+export const userLikes = (post) => {
+  const Likes = post.doc.data().likes;
+  console.log(Likes);
+  return Likes;
 };
 // //// EDIT POST ///
 export const editP = async (postId, postDesc) => {

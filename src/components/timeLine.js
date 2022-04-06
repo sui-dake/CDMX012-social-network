@@ -1,8 +1,9 @@
 import { onNavigate } from '../app.js';
 import {
+  currUser,
   editP,
   likeArray,
-  logOutFunct, removing, savePost, unsubscribe,
+  logOutFunct, removing, savePost, totalLikes, userLikes, unsubscribe, dislike,
 } from '../firebase.js';
 
 export const TimeLine = () => {
@@ -63,10 +64,13 @@ export const TimeLine = () => {
   inputs.append(newPost, postButton);
 
   const setUpPost = (posts) => {
-    console.log('set_pre_4each');
-
     posts.forEach((change) => {
-      if (change.type == 'added') {
+      // const allLikes = change.doc.data().likes;
+      const likesUno = totalLikes(change);
+      console.log({ likesUno });
+      const idPost = (change);
+      console.log(idPost);
+      if (change.type === 'added') {
         console.log('set_post_4each');
         const articleContent = document.createElement('article');
         articleContent.setAttribute('id', change.doc.id);
@@ -82,13 +86,28 @@ export const TimeLine = () => {
           id: 'postContent',
           textContent: change.doc.data().Description,
         });
+        const likeContainer = document.createElement('div');
+        likeContainer.setAttribute('id', 'likeContainer');
         const likeDiv = document.createElement('div');
         likeDiv.setAttribute('id', 'likeDiv');
         const likeB = document.createElement('img');
         Object.assign(likeB, {
           id: 'likeB',
           type: 'button',
-          src: 'imagenes/paw.png',
+          classList: 'patas',
+          src: 'imagenes/pataContorno.png',
+        });
+        const dislikeB = document.createElement('img');
+        Object.assign(dislikeB, {
+          id: 'dislikeB',
+          type: 'button',
+          classList: 'patas',
+          src: 'imagenes/paw colrd.png',
+        });
+        const likeCount = document.createElement('p');
+        Object.assign(likeCount, {
+          id: 'likeCount',
+          textContent: likesUno,
         });
 
         const editSection = document.createElement('section');
@@ -97,7 +116,8 @@ export const TimeLine = () => {
         Object.assign(editB, {
           id: 'editB',
           type: 'button',
-          src: 'imagenes/edit.png',
+          classList: 'patas',
+          src: 'imagenes/edit3.png',
         });
 
         const eraseSection = document.createElement('section');
@@ -106,98 +126,117 @@ export const TimeLine = () => {
         Object.assign(eraseB, {
           id: 'editB',
           type: 'button',
+          classList: 'patas',
           src: 'imagenes/eraser.png',
         });
 
         const uids = change.doc.data().UID;
-
-        likeB.addEventListener('click', (event) => {
+        // ///////// LIKE & DISLIKE FUNC /////
+        likeB.addEventListener('click', () => {
           if (likeB) {
-            event = change.doc.id;
-            // console.log(change.doc.id);
             console.log('likeB');
-            likeArray(event);
-            // postContainer.removeChild(articleContent);
-            
-          // console.log(likeArray);
+            likeArray(change.doc.id);
+            postContainer.removeChild(articleContent);
           } else {
           }
         // console.log(event);
         });
-        const allLikes = change.doc.data().likes;
+        dislikeB.addEventListener('click', () => {
+          console.log('dislikeB');
+          dislike(change.doc.id);
+          postContainer.removeChild(articleContent);
+        // console.log(event);
+        });
+        likeDiv.append(likeB, likeCount);
+        // ///////// USER AND ALREADY LIKED POSTS /////
+        const valid = userLikes(idPost);
+        const coincidence = valid.find((e) => e === currUser());
+        console.log(coincidence);
 
-        // editB.addEventListener('click', (event) => {
-        //   if (editB) {
-        //     event = change.doc.id;
-        //     // console.log(change.doc.id);
-        //     console.log('editB');
-
-        //     removing(event);
-        //   // console.log(likeArray);
-        //   } else {
-        //   }
-        // // console.log(event);
-        // });
-
-        likeDiv.appendChild(likeB);
+        if (currUser() === coincidence) {
+          console.log('si esta P:');
+          likeDiv.removeChild(likeB);
+          likeDiv.appendChild(dislikeB);
+        } else if (currUser() !== coincidence) {
+          likeDiv.appendChild(likeB);
+          console.log('no esta');
+        }
+        
+        // likeDiv.appendChild(likeCount);
         editSection.appendChild(editB);
         eraseSection.appendChild(eraseB);
-        articleContent.append(titleH3, postContent, likeDiv, editSection, eraseSection);
+        likeContainer.append(likeDiv, editSection, eraseSection);
+        articleContent.append(titleH3, postContent, likeContainer);
         postContainer.insertBefore(articleContent, postContainer.firstChild);
-        eraseB.addEventListener('click', (event) => {
-          if (eraseB) {
-            event = change.doc.id;
-            // console.log(change.doc.id);
-            console.log('editB');
-
-            removing(event);
+        eraseB.addEventListener('click', () => {
+        // abra un modal o ponga una linea con la advertencia
+          // si acepta entonces entra al if, si no, se cierra modal
+          const warnSection = document.createElement('section');
+          warnSection.setAttribute('id', 'warnSection');
+          const warning = document.createElement('p');
+          Object.assign(warning, {
+            id: 'warning',
+            textContent: '¿Segurx que deseas eliminar esta publicación?',
+          });
+          const yesNo = document.createElement('section');
+          yesNo.setAttribute('id', 'yesNoSection');
+          const yesB = document.createElement('button');
+          Object.assign(yesB, {
+            id: 'yesB',
+            textContent: 'Eliminar',
+          });
+          const noB = document.createElement('button');
+          Object.assign(noB, {
+            id: 'noB',
+            textContent: 'Cancelar',
+          });
+          yesNo.append(yesB, noB);
+          warnSection.append(warning, yesNo);
+          articleContent.append(warnSection);
+          yesB.addEventListener('click', () => {
+            console.log('entr[o a borrar');
+            removing(change.doc.id);
             postContainer.removeChild(articleContent);
-          // console.log(likeArray);
-          } else {
-          }
-        // console.log(event);
+          });
+
+          noB.addEventListener('click', () => {
+            console.log('entro a cancel');
+            articleContent.removeChild(warnSection);
+          });
         });
         /// /////////////////////////////////////////////
-        editB.addEventListener('click', (event) => {
+        editB.addEventListener('click', () => {
           if (editB) {
-            event = change.doc.id;
-            // console.log(change.doc.id);
             console.log('editB');
-            const editContent = document.createElement('textarea');
+            articleContent.removeChild(postContent);
+            const editConteiner = document.createElement('div');
+            editConteiner.setAttribute('id', 'editConteiner');
+            const editContent = document.createElement('input');
             Object.assign(editContent, {
               id: 'editContent',
+              type: 'text',
               placeholder: change.doc.data().Description,
             });
-            // postContent.innerHTML = 'textarea';
-            // Object.assign(postContent, {
-            //   id: 'postContent',
-            //   placeholder: change.doc.data().Description,
-            // });
             const saveEdit = document.createElement('button');
             Object.assign(saveEdit, {
               id: 'saveEdit',
               value: 'guardar',
+              textContent: 'Guardar',
             });
-            articleContent.append(saveEdit, editContent);
+            editConteiner.append(editContent, saveEdit);
+            articleContent.appendChild(editConteiner);
+
             saveEdit.addEventListener('click', () => {
-              // if (editContent.value != []) {
-              //   savePost(editContent.value, new Date());
-              // } else {
-              //   alert('No escribiste nada!');
-              // }
               const edited = editContent.value;
               console.log(edited);
-              articleContent.append(saveEdit, editContent);
-              editP(event, edited);
+              articleContent.append(editConteiner);
+              editP(change.doc.id, edited);
               postContainer.removeChild(articleContent);
-              // postContainer.append(articleContent);
-              // console.log(likeArray);
             });
-            // console.log(event);
           }
         });
         // /////////// MODIFIED /////////////////
-      } else if (change.type == 'modified') {
+      } else if (change.type === 'modified') {
         console.log('set_post_4each');
         const articleContent = document.createElement('article');
         articleContent.setAttribute('id', change.doc.id);
@@ -213,13 +252,28 @@ export const TimeLine = () => {
           id: 'postContent',
           textContent: change.doc.data().Description,
         });
+        const likeContainer = document.createElement('div');
+        likeContainer.setAttribute('id', 'likeContainer');
         const likeDiv = document.createElement('div');
         likeDiv.setAttribute('id', 'likeDiv');
         const likeB = document.createElement('img');
         Object.assign(likeB, {
           id: 'likeB',
           type: 'button',
-          src: 'imagenes/paw.png',
+          classList: 'patas',
+          src: 'imagenes/pataContorno.png',
+        });
+        const dislikeB = document.createElement('img');
+        Object.assign(dislikeB, {
+          id: 'dislikeB',
+          type: 'button',
+          classList: 'patas',
+          src: 'imagenes/paw colrd.png',
+        });
+        const likeCount = document.createElement('p');
+        Object.assign(likeCount, {
+          id: 'likeCount',
+          textContent: likesUno,
         });
 
         const editSection = document.createElement('section');
@@ -228,7 +282,8 @@ export const TimeLine = () => {
         Object.assign(editB, {
           id: 'editB',
           type: 'button',
-          src: 'imagenes/edit.png',
+          classList: 'patas',
+          src: 'imagenes/edit3.png',
         });
 
         const eraseSection = document.createElement('section');
@@ -237,91 +292,111 @@ export const TimeLine = () => {
         Object.assign(eraseB, {
           id: 'editB',
           type: 'button',
+          classList: 'patas',
           src: 'imagenes/eraser.png',
         });
 
         const uids = change.doc.data().UID;
+        // /////////////// LIKE & DISLIKE FUNC /////////
 
-        likeB.addEventListener('click', (event) => {
-          if (likeB) {
-            event = change.doc.id;
-            // console.log(change.doc.id);
-            console.log('likeB');
-            likeArray(event);
-            //postContainer.removeChild(articleContent);
-          // console.log(likeArray);
-          } else {
-          }
-        // console.log(event);
+        likeB.addEventListener('click', () => {
+          console.log('likeB');
+          likeArray(change.doc.id);
+          postContainer.removeChild(articleContent);
         });
 
-        // editB.addEventListener('click', (event) => {
-        //   if (editB) {
-        //     event = change.doc.id;
-        //     // console.log(change.doc.id);
-        //     console.log('editB');
+        dislikeB.addEventListener('click', () => {
+          console.log('dislikeB');
+          dislike(change.doc.id);
+          postContainer.removeChild(articleContent);
+        // console.log(event);
+        });
+        likeDiv.append(likeB, likeCount);
+        /// /////////// COINCIDENCE BETWEEN USER AND ALREADY LIKED POSTS /////////////
+        const valid = userLikes(idPost);
+        const coincidence = valid.find((e) => e === currUser());
+        console.log(coincidence);
 
-        //     removing(event);
-        //   // console.log(likeArray);
-        //   } else {
-        //   }
-        // // console.log(event);
-        // });
-
-        likeDiv.appendChild(likeB);
+        if (currUser() === coincidence) {
+          console.log('si esta P:');
+          likeDiv.removeChild(likeB);
+          likeDiv.appendChild(dislikeB);
+        } else if (currUser() !== coincidence) {
+          likeDiv.appendChild(likeB);
+          console.log('no esta');
+        }
+        /// /////////////
+        
         editSection.appendChild(editB);
         eraseSection.appendChild(eraseB);
-        articleContent.append(titleH3, postContent, likeDiv, editSection, eraseSection);
+        likeContainer.append(likeDiv, editSection, eraseSection);
+        articleContent.append(titleH3, postContent, likeContainer);
         postContainer.insertBefore(articleContent, postContainer.firstChild);
-        eraseB.addEventListener('click', (event) => {
-          if (eraseB) {
-            event = change.doc.id;
-            // console.log(change.doc.id);
-            console.log('editB');
-
-            removing(event);
+        eraseB.addEventListener('click', () => {
+          // abra un modal o ponga una linea con la advertencia
+          // si acepta entonces entra al if, si no, se cierra modal
+          const warnSection = document.createElement('section');
+          warnSection.setAttribute('id', 'warnSection');
+          const warning = document.createElement('p');
+          Object.assign(warning, {
+            id: 'warning',
+            textContent: '¿Segurx que deseas eliminar esta publicación?',
+          });
+          const yesNo = document.createElement('section');
+          yesNo.setAttribute('id', 'yesNoSection');
+          const yesB = document.createElement('button');
+          Object.assign(yesB, {
+            id: 'yesB',
+            textContent: 'Eliminar',
+          });
+          const noB = document.createElement('button');
+          Object.assign(noB, {
+            id: 'noB',
+            textContent: 'Cancelar',
+          });
+          yesNo.append(yesB, noB);
+          warnSection.append(warning, yesNo);
+          articleContent.append(warnSection);
+          yesB.addEventListener('click', () => {
+            console.log('entr[o a borrar');
+            removing(change.doc.id);
             postContainer.removeChild(articleContent);
-          // console.log(likeArray);
-          } else {
-          }
-        // console.log(event);
+          });
+
+          noB.addEventListener('click', () => {
+            console.log('entro a cancel');
+            articleContent.removeChild(warnSection);
+          });
         });
+
         /// /////////////////////////////////////////////
-        editB.addEventListener('click', (event) => {
+        editB.addEventListener('click', () => {
           if (editB) {
-            event = change.doc.id;
-            // console.log(change.doc.id);
-            console.log('editB');
-            const editContent = document.createElement('textarea');
+            postContainer.removeChild(articleContent);
+            const editConteiner = document.createElement('div');
+            editConteiner.setAttribute('id', 'editConteiner');
+            const editContent = document.createElement('input');
             Object.assign(editContent, {
               id: 'editContent',
+              type: 'text',
               placeholder: change.doc.data().Description,
             });
-            // postContent.innerHTML = 'textarea';
-            // Object.assign(postContent, {
-            //   id: 'postContent',
-            //   placeholder: change.doc.data().Description,
-            // });
+
             const saveEdit = document.createElement('button');
             Object.assign(saveEdit, {
               id: 'saveEdit',
               value: 'guardar',
+              textContent: 'Guardar',
             });
-            articleContent.append(saveEdit, editContent);
+            editConteiner.append(editContent, saveEdit);
+            articleContent.appendChild(editConteiner);
             saveEdit.addEventListener('click', () => {
-              // if (editContent.value != []) {
-              //   savePost(editContent.value, new Date());
-              // } else {
-              //   alert('No escribiste nada!');
-              // }
               const edited = editContent.value;
               console.log(edited);
-              articleContent.append(saveEdit, editContent);
-              editP(event, edited);
+              articleContent.append(editConteiner);
+              editP(change.doc.id, edited);
               postContainer.removeChild(articleContent);
-              // console.log(likeArray);
             });
-            // console.log(event);
           }
         });
       }

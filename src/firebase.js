@@ -9,7 +9,10 @@ import {
   query, where,
   orderBy,
   updateDoc,
+  setDoc,
   arrayUnion,
+  arrayRemove,
+  deleteDoc,
 } from 'https://www.gstatic.com/firebasejs/9.6.8/firebase-firestore.js';
 import {
   getAuth,
@@ -22,7 +25,7 @@ import {
   signInWithRedirect,
   FacebookAuthProvider,
 } from 'https://www.gstatic.com/firebasejs/9.6.8/firebase-auth.js';
-import { impresion } from './components/signIn.js';
+// import { impresion } from './components/signIn.js';
 import { onNavigate } from './app.js';
 
 const firebaseConfig = {
@@ -189,16 +192,64 @@ onAuthStateChanged(auth, (user) => {
   }
 });
 
-const data = collection(db, 'posts');
+// const data = collection(db, 'posts');
 
-const w = query(data, orderBy('date', 'asc'));
+// const w = query(data, orderBy('date', 'asc'));
+// export const unsubscribe = (funct) => {
+//   console.log('unsus');
+//   onSnapshot(w, (snapshot) => {
+//     const changes = snapshot.docChanges();
+//     console.log(changes);
+//     funct(changes);
+//   });
+// };
 export const unsubscribe = (funct) => {
-  console.log('unsus');
-  onSnapshot(w, (snapshot) => {
-    const changes = snapshot.docChanges();
-    console.log(changes);
-    funct(changes);
+  const data = collection(db, 'posts');
+  const orderData = query(data, orderBy('date', 'asc'));
+  let postsArray = [];
+  onSnapshot(orderData, (snapshot) => {
+    postsArray = [];
+    // console.log('start postsArray.size=' + postsArray.length);
+    // console.log('snapshot.size=' + snapshot.size);
+    // console.log('snapshot.docChanges().size=' + snapshot.docChanges().length);
+    snapshot.forEach((postDoc) => {
+      // either edit, update or delete
+      if (postDoc.metadata.hasPendingWrites) {
+        // objeto fue actualizado
+        if (postDoc.exists) {
+          console.log('existen cambios');
+          // edit or create logic
+          // console.log('edit or create logic '+ postDoc.id + "  "+ postDoc.data().Description)
+          // console.log(postDoc.data());
+          postsArray.push({
+            id: postDoc.id,
+            ...postDoc.data(),
+          });
+        } else{
+          // delete logic
+          // console.log('delete logic=' + postDoc.id + "  "+postDoc.data().Description);
+        }
+      } else {
+        console.log('no existen cambios');
+        // objeto no tiene cambios
+        // console.log('objeto no tiene cambios='+ postDoc.id + "  " + postDoc.data().Description);
+        // console.log(postDoc.data());
+        postsArray.push({
+          id: postDoc.id,
+          ...postDoc.data(),
+        });
+      }
+    });
+    // console.log('END postsArray.size=' + postsArray.length);
+    funct(postsArray);
   });
+};
+
+export const currUser = () => {
+  const users = auth.currentUser;
+  if (users) {
+    return users.uid;
+  }
 };
 /// /Likes//
 export const likeArray = async (postId) => {
@@ -209,9 +260,58 @@ export const likeArray = async (postId) => {
     await updateDoc(postCollection, {
       likes: arrayUnion(userId),
     });
-    // vaciar contenido en interfaz y volverlo a imprimir;
-    // postwo.innerHTML = '';
+  }
+};
+export const dislike = async (postId) => {
+  const users = auth.currentUser;
+  if (users) {
+    const userId = users.uid;
+    const postCollection = doc(db, 'posts', postId);
+    await updateDoc(postCollection, {
+      likes: arrayRemove(userId),
+    });
+  }
+};
+
+export const totalLikes = (post) => {
+  const allLikes = post.likes;
+  return allLikes.length;
+};
+export const userLikes = (post) => {
+  const Likes = post.likes;
+  //console.log(Likes);
+  return Likes;
+};
+// //// EDIT POST ///
+export const editP = async (postId, postDesc) => {
+  const users = auth.currentUser;
+  if (users) {
+    const postColle = doc(db, 'posts', postId);
+    await updateDoc(postColle, {
+      Description: postDesc,
+    });
+  }
+};
+// export const editP = async (postId, postDesc, liked) => {
+//   const users = auth.currentUser;
+//   if (users) {
+//     const postColle = doc(db, 'posts', postId);
+//     await setDoc(postColle, {
+//       Description: postDesc,
+//       UID: users.uid,
+//       date: new Date(),
+//       email: users.email,
+//       //likes: [`${liked}`],
+//     });
+//   }
+// };
+// /// REMOVE POST ///
+export const removing = async (postId) => {
+  const users = auth.currentUser;
+  if (users) {
+    const userId = users.uid;
+    const postCollection = doc(db, 'posts', postId);
+    await deleteDoc(postCollection);
     // unsubscribe(postwo);
-    console.log(postCollection.likes);
   }
 };

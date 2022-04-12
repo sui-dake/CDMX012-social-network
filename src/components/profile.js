@@ -1,3 +1,4 @@
+/* eslint-disable import/no-cycle */
 import { onNavigate } from '../app.js';
 import { logOutFunct } from '../firebase.js';
 

@@ -1,3 +1,4 @@
+/* eslint-disable no-console */
 /* eslint-disable import/no-cycle */
 // import { signInFunct } from '../firebase.js';
 // eslint-disable-next-line no-unused-vars

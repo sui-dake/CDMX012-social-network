@@ -1,9 +1,13 @@
+/* eslint-disable no-console */
+/* eslint-disable no-alert */
+/* eslint-disable no-unused-vars */
+/* eslint-disable import/named */
 import { onNavigate } from '../app.js';
 import {
   currUser,
   editP,
   likeArray,
-  logOutFunct, removing, savePost, totalLikes, userLikes, unsubscribe, dislike,
+  removing, savePost, totalLikes, userLikes, unsubscribe, dislike,
 } from '../firebase.js';
 
 export const TimeLine = () => {
@@ -136,12 +140,9 @@ export const TimeLine = () => {
         // const uids = doc.UID;
         // ///////// LIKE & DISLIKE FUNC /////
         likeB.addEventListener('click', () => {
-          if (likeB) {
-            console.log('likeB');
-            likeArray(doc.id);
-            // postContainer.removeChild(articleContent);
-          } else {
-          }
+          console.log('likeB');
+          likeArray(doc.id);
+          // postContainer.removeChild(articleContent);
         // console.log(event);
         });
         dislikeB.addEventListener('click', () => {
@@ -199,7 +200,7 @@ export const TimeLine = () => {
           yesB.addEventListener('click', () => {
             console.log('entr[o a borrar');
             removing(doc.id);
-            //postContainer.removeChild(articleContent);
+            // postContainer.removeChild(articleContent);
           });
 
           noB.addEventListener('click', () => {
@@ -237,7 +238,7 @@ export const TimeLine = () => {
               console.log(edited);
               articleContent.append(editConteiner);
               editP(doc.id, edited);
-              //postContainer.removeChild(articleContent);
+              // postContainer.removeChild(articleContent);
             });
           }
         });
@@ -413,7 +414,7 @@ export const TimeLine = () => {
   wraper.append(inputs, postContainer);
 
   postButton.addEventListener('click', () => {
-    if (newPost.value != []) {
+    if (newPost.value !== []) {
       savePost(newPost.value, new Date());
       newPost.value = '';
     } else {

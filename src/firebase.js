@@ -1,3 +1,9 @@
+/* eslint-disable no-console */
+/* eslint-disable no-alert */
+/* eslint-disable consistent-return */
+/* eslint-disable no-unused-vars */
+/* eslint-disable import/no-unresolved */
+/* eslint-disable import/no-cycle */
 import { initializeApp } from 'https://www.gstatic.com/firebasejs/9.6.8/firebase-app.js';
 import {
   getFirestore,
@@ -27,6 +33,7 @@ import {
 } from 'https://www.gstatic.com/firebasejs/9.6.8/firebase-auth.js';
 // import { impresion } from './components/signIn.js';
 import { onNavigate } from './app.js';
+
 
 const firebaseConfig = {
   apiKey: 'AIzaSyAiKKsrEJpCx8NgpvvcNp1dykxNjEyzqe0',
@@ -95,15 +102,19 @@ export const savePost = (Description, date) => {
 // Crear cuenta con Google
 export const googleLogin = () => {
   signInWithRedirect(auth, provider);
+  onNavigate('/timeLine');
   getRedirectResult(auth)
+
     .then((result) => {
       // This gives you a Google Access Token. You can use it to access Google APIs.
       const credential = GoogleAuthProvider.credentialFromResult(result);
       const token = credential.accessToken;
       // The signed-in user info.
-      const user = result.user;
-      console.log('funciona?');
+      const users = result.user;
     })
+  // if (user) {
+
+  // }
     .catch((error) => {
       // Handle Errors here.
       const errorCode = error.code;
@@ -114,6 +125,7 @@ export const googleLogin = () => {
       const credential = GoogleAuthProvider.credentialFromError(error);
       // ...
     });
+    
 };
 
 // Crear cuenta con Facebook
@@ -225,7 +237,7 @@ export const unsubscribe = (funct) => {
             id: postDoc.id,
             ...postDoc.data(),
           });
-        } else{
+        } else {
           // delete logic
           // console.log('delete logic=' + postDoc.id + "  "+postDoc.data().Description);
         }
@@ -279,7 +291,7 @@ export const totalLikes = (post) => {
 };
 export const userLikes = (post) => {
   const Likes = post.likes;
-  //console.log(Likes);
+  // console.log(Likes);
   return Likes;
 };
 // //// EDIT POST ///

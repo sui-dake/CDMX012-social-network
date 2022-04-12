@@ -113,7 +113,7 @@ export const Home = () => {
     // alert ('correo no registrado, contra invalida')
     //} hacer fun impresion  (token) => {}
 
-    if ((email != [] || password != []) && (password.length >= 6)) {
+    if ((email !== [] || password !== []) && (password.length >= 6)) {
       loginInFunct(email, password);
     } else {
       onNavigate('/');

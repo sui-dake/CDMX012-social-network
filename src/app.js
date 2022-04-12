@@ -1,8 +1,9 @@
-import { Home } from './components/Home.js';
+/* eslint-disable import/no-cycle */
+import { Home } from './components/home.js';
 // import { about } from './components/about.js';
 // eslint-disable-next-line import/no-cycle
-import { SignIn } from './components/SignIn.js';
-import { TimeLine } from './components/TimeLine.js';
+import { SignIn } from './components/signIn.js';
+import { TimeLine } from './components/timeLine.js';
 import { Profile } from './components/profile.js';
 
 const rootDiv = document.getElementById('root');
